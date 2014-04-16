@@ -1,4 +1,5 @@
-csc296s14-dbsys-tams
-====================
+TA Management System Database
+=============================
 
-CSC 296 Spring 2014 Final Project: TA Management System Database
+Live at: http://betaweb.csug.rochester.edu/~nbook/tnd/index.php (may require University of Rochester VPN access)
+
