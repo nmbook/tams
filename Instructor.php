@@ -38,13 +38,14 @@ class Instructor
         public function getOffice() {return $this->office;}
 
         public function getClasses() {
-                if ($this->classes) return $this->classes;
-                return getMapping("SELECT * FROM Teaches INNER JOIN Courses
+                if ($this->classes == NULL)
+                        $this->classes = getMapping("SELECT * FROM Teaches INNER JOIN Courses
                         ON Teaches.course = Courses.id
                         WHERE
                         Teaches.instructor = :netid",
                         array(':netid' => $this->netid),
                         function ($x) { return Course($x); });
+                return $this->classes;
         }
 
         static public function getByNetID($netid) {
