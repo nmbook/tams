@@ -35,19 +35,21 @@ class TA{
         public function getClassYear() {return $this->class_year;}
 
         public function getCourseApplications() {
-                if ($this->course_applications) return $this->course_applications;
-                return getMapping("SELECT * FROM CourseApplications WHERE
-                        tanetid = :netid",
-                        array(':netid' => $this->netid),
-                        function ($x) { return CourseApplication($x); });
+                if ($this->course_applications == NULL)
+                        $this->course_applications = getMapping("SELECT * FROM CourseApplications WHERE
+                                tanetid = :netid",
+                                array(':netid' => $this->netid),
+                                function ($x) { return CourseApplication($x); });
+                return $this->course_applications;
         }
 
          public function getWorkshopApplications() {
-                if ($this->workshop_applications) return $this->workshop_applications;
-                return getMapping("SELECT * FROM WorkshopApplications WHERE
-                        tanetid = :netid",
-                        array(':netid' => $this->netid),
-                        function ($x) { return WorkshopApplication($x); });
+                if ($this->workshop_applications == NULL)
+                        $this->workshop_applications = getMapping("SELECT * FROM WorkshopApplications WHERE
+                                tanetid = :netid",
+                                array(':netid' => $this->netid),
+                                function ($x) { return WorkshopApplication($x); });
+                return $this->workshop_applications;
         }
 
 
