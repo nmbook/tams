@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS course_apps;
 DROP TABLE IF EXISTS workshops;
 DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS tas;
+DROP TABLE IF EXISTS instructors;
 
 -- Set up table Courses
 
@@ -48,14 +50,22 @@ CREATE TABLE workshops (
 
 -- Set up table Person/Users (TA/Instructor/Staff/Admin)
 
-CREATE TABLE users (
+CREATE TABLE tas (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     netid CHAR(8) NOT NULL UNIQUE, -- natural key
     name VARCHAR(32) NOT NULL,
     email VARCHAR(256) NOT NULL,
-    role ENUM('student','faculty','staff','admin') NOT NULL,
-    office_room VARCHAR(32) NULL,
     class_year SMALLINT(4) NULL,
+    credentials VARCHAR(256) NULL
+) ENGINE=InnoDB;
+
+-- role ENUM('student','faculty','staff','admin') NOT NULL,
+CREATE TABLE instructors (
+    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    netid CHAR(8) NOT NULL UNIQUE, -- natural key
+    name VARCHAR(32) NOT NULL,
+    email VARCHAR(256) NOT NULL,
+    office_room VARCHAR(32) NULL,
     credentials VARCHAR(256) NULL
 ) ENGINE=InnoDB;
 
@@ -71,7 +81,7 @@ CREATE TABLE course_apps (
     time_response DATETIME NULL,
 
     FOREIGN KEY (crn) REFERENCES courses (crn),
-    FOREIGN KEY (netid) REFERENCES users (netid),
+    FOREIGN KEY (netid) REFERENCES tas (netid),
     UNIQUE (crn, netid) -- natural key
 ) ENGINE=InnoDB;
 
@@ -87,7 +97,7 @@ CREATE TABLE workshop_apps (
     time_response DATETIME NULL,
 
     FOREIGN KEY (crn) REFERENCES workshops (crn),
-    FOREIGN KEY (netid) REFERENCES users (netid),
+    FOREIGN KEY (netid) REFERENCES tas (netid),
     UNIQUE (crn, netid) -- natural key
 ) ENGINE=InnoDB;
 
@@ -120,11 +130,11 @@ CREATE TABLE workshop_sessions (
 CREATE TABLE teaches (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn SMALLINT NOT NULL,
-    user_id INTEGER NOT NULL
-        CHECK (user_id IN (SELECT id FROM users WHERE role = 'faculty')), -- only faculty can teach courses
+    user_id INTEGER NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (user_id) REFERENCES instructors (id),
     FOREIGN KEY (crn) REFERENCES courses (crn),
     UNIQUE (crn, user_id) -- natural key
 ) ENGINE=InnoDB;
+-- CHECK (user_id IN (SELECT id FROM users WHERE role = 'faculty')), -- only faculty can teach courses
 
