@@ -1,18 +1,19 @@
 <?php
 
+/**
+ * This is the DAL for the TA class.
+ *
+ * Currently functional (and tested) parts:
+ * int TA::getCount() -- gets the total number of rows in the data
+ * array TA::getByRange() -- gets an array of objects, one TA object per row.
+ * string $ta->getNetID()
+ * string $ta->getName()
+ * string $ta->getEmail()
+ * int $ta->getClassYear()
+ */
+
 $dbname = 'nbook';
 require_once('../dbsetup.php');
-
-function getMapping($sql,$arr,$callback) {
-    global $db;
-    $stmt = $db->prepare($sql);
-    if (!$stmt->execute($arr)) {
-        var_dump($stmt->errorInfo());
-        exit;
-    }
-    $stmt->setFetchMode(PDO::FETCH_NUM);
-    return array_map($callback,array());//$stmt->fetchAll());
-}
 
 class TA {
     private $netid;
@@ -21,6 +22,22 @@ class TA {
     private $class_year;
     private $course_applications;
     private $workshop_applications;
+
+    static private function getMapping($sql,$arr,$callback,$limit_start = null,$limit_len = null) {
+        global $db;
+        $stmt = $db->prepare($sql);
+        if ($limit_start !== null && $limit_len !== null) {
+            $stmt->bindParam(':start',intval($limit_start),PDO::PARAM_INT);
+            $stmt->bindParam(':len',intval($limit_len),PDO::PARAM_INT);
+        }
+        if (!$stmt->execute()) {
+            echo $sql;
+            print_r($stmt->errorInfo());
+            exit;
+        }
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        return array_map($callback,$stmt->fetchAll());//$stmt->fetchAll());
+    }
 
     public function __construct($row) {
         $this->netid = $row['netid'];
@@ -37,11 +54,11 @@ class TA {
     public function getNetID() {return $this->netid;}
     public function getName()  {return $this->name;}
     public function getEmail() {return $this->email;}
-    public function getClassYear() {return $this->class_year;}
+    public function getClassYear() {return intval($this->class_year);}
 
     public function getCourseApplications() {
         if ($this->course_applications == NULL)
-            $this->course_applications = getMapping("SELECT * FROM CourseApplications WHERE
+            $this->course_applications = TA::getMapping("SELECT * FROM CourseApplications WHERE
             tanetid = :netid",
             array(':netid' => $this->netid),
             function ($x) { return CourseApplication($x); });
@@ -50,7 +67,7 @@ class TA {
 
     public function getWorkshopApplications() {
         if ($this->workshop_applications == NULL)
-            $this->workshop_applications = getMapping("SELECT * FROM WorkshopApplications WHERE
+            $this->workshop_applications = TA::getMapping("SELECT * FROM WorkshopApplications WHERE
             tanetid = :netid",
             array(':netid' => $this->netid),
             function ($x) { return WorkshopApplication($x); });
@@ -64,13 +81,14 @@ class TA {
         $stmt->execute(array(':netid' => $netid));
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $row = $stmt->fetch();
-        return TA($row);
+        return new TA($row);
     }
 
     static public function getByRange($start,$len) {
-        return getMapping('SELECT netid,name,email,class_year FROM tas LIMIT :start,:len',
-            array(':start' => $start, ':len' => $len),
-            function ($x) { return new TA($x); });
+        return TA::getMapping('SELECT netid,name,email,class_year FROM tas LIMIT :start, :len',
+            array(),
+            function ($x) { return new TA($x); },
+            $start,$len);
     }
 
     static public function getCount() {

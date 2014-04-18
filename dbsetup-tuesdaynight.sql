@@ -74,15 +74,15 @@ CREATE TABLE instructors (
 CREATE TABLE course_apps (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn SMALLINT NOT NULL,
-    netid CHAR(8) NOT NULL,
+    ta_id INTEGER NOT NULL,
     for_credit BOOLEAN NOT NULL,
     state ENUM('pending','approved','denied') NOT NULL,
     time_signup DATETIME NOT NULL,
     time_response DATETIME NULL,
 
     FOREIGN KEY (crn) REFERENCES courses (crn),
-    FOREIGN KEY (netid) REFERENCES tas (netid),
-    UNIQUE (crn, netid) -- natural key
+    FOREIGN KEY (ta_id) REFERENCES tas (id),
+    UNIQUE (crn, ta_id) -- natural key
 ) ENGINE=InnoDB;
 
 -- Set up table WorkshopApplications
@@ -90,15 +90,15 @@ CREATE TABLE course_apps (
 CREATE TABLE workshop_apps (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn SMALLINT NOT NULL,
-    netid CHAR(8) NOT NULL,
+    ta_id INTEGER NOT NULL,
     for_credit BOOLEAN NOT NULL,
     state ENUM('pending','approved','denied') NOT NULL,
     time_signup DATETIME NOT NULL,
     time_response DATETIME NULL,
 
     FOREIGN KEY (crn) REFERENCES workshops (crn),
-    FOREIGN KEY (netid) REFERENCES tas (netid),
-    UNIQUE (crn, netid) -- natural key
+    FOREIGN KEY (ta_id) REFERENCES tas (id),
+    UNIQUE (crn, ta_id) -- natural key
 ) ENGINE=InnoDB;
 
 -- Set up table CourseSessions
@@ -130,11 +130,11 @@ CREATE TABLE workshop_sessions (
 CREATE TABLE teaches (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn SMALLINT NOT NULL,
-    user_id INTEGER NOT NULL,
+    instructor_id INTEGER NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES instructors (id),
+    FOREIGN KEY (instructor_id) REFERENCES instructors (id),
     FOREIGN KEY (crn) REFERENCES courses (crn),
-    UNIQUE (crn, user_id) -- natural key
+    UNIQUE (crn, instructor_id) -- natural key
 ) ENGINE=InnoDB;
 -- CHECK (user_id IN (SELECT id FROM users WHERE role = 'faculty')), -- only faculty can teach courses
 

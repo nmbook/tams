@@ -1,61 +1,70 @@
 <?php
+/**
+ * This is the DAL for the TA class.
+ *
+ * Currently functional (and tested) parts:
+ * int TA::getCount() -- gets the total number of rows in the data
+ * array TA::getByRange() -- gets an array of objects, one TA object per row.
+ * string $ta->getNetID()
+ * string $ta->getName()
+ * string $ta->getEmail()
+ * int $ta->getClassYear()
+ */
+
+$dbname = 'nbook';
+require_once('../dbsetup.php');
 
 
-require_once 'dbsetup.php';
+class Instructor
+{
+    private $netid;
+    private $name;
+    private $email;
+    private $office;
+    private $classes;
 
-
-
-function getMapping($sql,$arr,$callback) {
+    static private function getMapping($sql,$arr,$callback) {
         global $db;
         $stmt = $db->prepare($sql);
         $stmt->execute($arr);
         $stmt->setFetchMode(PDO::FETCH_NUM);
         return array_map($callback,$stmt);
-}
+    }
 
-class Instructor
-{
-        private $netid;
-        private $name;
-        private $email;
-        private $office;
-        private $classes;
+    public function __construct($row) {
+        $this->netid = $row['netid'];
+        $this->name = $row['name'];
+        $this->office = $row['office'];
+        if (array_key_exists('email',$row))
+            $this->email = $row['email'];
+        else
+            $this->email = $row['name'] . "@u.rochester.edu";
+        $this->classes = NULL;
+    }
 
-        public function __construct($row) {
-                $this->netid = $row['netid'];
-                $this->name = $row['name'];
-                $this->office = $row['office'];
-                if (array_key_exists('email',$row))
-                        $this->email = $row['email'];
-                else
-                        $this->email = $row['name'] . "@u.rochester.edu";
-                $this->classes = NULL;
-        }
+    public function getNetID() {return $this->netid;}
+    public function getName()  {return $this->name;}
+    public function getEmail() {return $this->email;}
+    public function getOffice() {return $this->office;}
 
-        public function getNetID() {return $this->netid;}
-        public function getName()  {return $this->name;}
-        public function getEmail() {return $this->email;}
-        public function getOffice() {return $this->office;}
+    public function getClasses() {
+        if ($this->classes == NULL)
+            $this->classes = Instructor::getMapping("SELECT * FROM Teaches INNER JOIN Courses
+            ON Teaches.course = Courses.id
+            WHERE
+            Teaches.instructor = :netid",
+            array(':netid' => $this->netid),
+            function ($x) { return Course($x); });
+        return $this->classes;
+    }
 
-        public function getClasses() {
-                if ($this->classes == NULL)
-                        $this->classes = getMapping("SELECT * FROM Teaches INNER JOIN Courses
-                        ON Teaches.course = Courses.id
-                        WHERE
-                        Teaches.instructor = :netid",
-                        array(':netid' => $this->netid),
-                        function ($x) { return Course($x); });
-                return $this->classes;
-        }
-
-        static public function getByNetID($netid) {
-                global $db;
-                $stmt = $db->prepare('SELECT * FROM Instructors WHERE netid=:netid;');
-                $stmt->execute(array(':netid' => $netid));
-                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                return Instructor($stmt->fetch());
-        }
+    static public function getByNetID($netid) {
+        global $db;
+        $stmt = $db->prepare('SELECT * FROM Instructors WHERE netid=:netid;');
+        $stmt->execute(array(':netid' => $netid));
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        return new Instructor($stmt->fetch());
+    }
 
 }
-?>
 
