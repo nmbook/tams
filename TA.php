@@ -62,9 +62,9 @@ class TA{
                 return TA($row);
         }
 
-	static public function getByIDRange($id_start,$id_end) {
-		return getMapping('SELECT netid,name,email,classYear FROM TAs WHERE :start<=id AND id<=:end',
-			array(':start' => $id_start, ':end' => $id_end),
+	static public function getByIDRange($start,$len) {
+		return getMapping('SELECT netid,name,email,classYear FROM TAs LIMIT :start,:len',
+			array(':start' => $start, ':len' => $len),
 			function ($x) { return TA($x); });
 	}
 
