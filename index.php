@@ -5,7 +5,7 @@
 <h1>TuesdayNight on Betaweb</h1>
 <h3>Group:</h3>
 <ul>
-<li><a href="/~thannon/">Tyler Hannon</a></li>
+<li><a href="/~thannan/">Tyler Hannan</a></li>
 <li><a href="/~nbook/">Nate Book</a></li>
 <li><a href="/~dostapen/">Dmitri Ostapenko</a></li>
 </ul>
