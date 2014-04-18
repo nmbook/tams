@@ -1,14 +1,12 @@
 <?php
 /**
- * This is the DAL for the TA class.
+ * This is the DAL for the Instructor class.
  *
  * Currently functional (and tested) parts:
- * int TA::getCount() -- gets the total number of rows in the data
- * array TA::getByRange() -- gets an array of objects, one TA object per row.
- * string $ta->getNetID()
- * string $ta->getName()
- * string $ta->getEmail()
- * int $ta->getClassYear()
+ * string $ins->getNetID()
+ * string $ins->getName()
+ * string $ins->getEmail()
+ * int $ins->getOffice()
  */
 
 $dbname = 'nbook';
