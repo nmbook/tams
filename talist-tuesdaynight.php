@@ -3,21 +3,26 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once('../dbsetup.php');
-
+require_once('ta.php');
 function echo_paginate_link($text, $new_start) {
     echo "<a href=\"talist-tuesdaynight.php?start=$new_start\">$text</a>";
 }
-
 function echo_paginate() {
-    $total = TA::getTACount();
-    if ($start > 0) {
-        echo_paginate_link('<-- Previous', min(0, $start - 20));
-        if ($start < $total - 20) { echo ' | '; }
+    $start = isset($_GET['start']) ? $_GET['start'] : 0;
+
+    if (!is_numeric($start)) {
+        $start = 0;
     }
-    if ($start < $total - 20) {
-        echo_paginate_link('Next -->', max($total - 20, $start + 20));
+
+    $per_page = 20;
+    $count = TA::getCount();
+    if ($start >= $count + 20) {
+        $start = $count - 20;
     }
+    $prev = max(0, $start - $per_page);
+    $next = min($count - $per_page, $start + $per_page);
+
+    return array('start'=>$start + 0,'count'=>$count + 0,'per_page'=>$per_page,'prev'=>$prev,'next'=>$next);
 }
 
 ?>
@@ -30,20 +35,34 @@ function echo_paginate() {
 
 <?php 
 
-$start = isset($_GET['start']) : $_GET['start'] : 0;
+# Pagination...
+$page_result = echo_paginate();
+$start = $page_result['start'];
+$count = $page_result['count'];
+$per_page = $page_result['per_page'];
+$prev = $page_result['prev'];
+$next = $page_result['next'];
 
-if (!is_numeric($start)) {
-    $start = 0;
+if ($start > 0) {
+    echo_paginate_link('<-- Previous', $prev);
+    if ($start < $count - $per_page) { echo ' | '; }
 }
 
-echo "START = $start\n";
+if ($start < $count - $per_page) {
+    echo_paginate_link('Next -->', $next);
+}
+
+echo '<br />';
+
+print_r($page_result);
+
+$data = TA::getByRange($start, $per_page);
+
+var_dump($data);
 
 //TA::getByRange($start, 20);
 
-echo_paginate();
-
 ?>
-
 
 </body>
 </html>
