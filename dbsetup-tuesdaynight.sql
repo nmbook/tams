@@ -4,11 +4,9 @@
 -- Remove tables in order to remove constraints correctly
 
 DROP TABLE IF EXISTS teaches;
-DROP TABLE IF EXISTS workshop_sessions;
 DROP TABLE IF EXISTS course_sessions;
 DROP TABLE IF EXISTS sessions;
-DROP TABLE IF EXISTS workshop_apps;
-DROP TABLE IF EXISTS course_apps;
+DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS workshops;
 DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS users;
@@ -32,20 +30,10 @@ CREATE TABLE courses (
 CREATE TABLE sessions (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     weekday ENUM('U','M','T','W','R','F','S') NOT NULL,
-    time DATETIME NOT NULL,
+    start_time TIME NOT NULL,
+	end_time TIME NOT NULL,
     room VARCHAR(32) NOT NULL,
-
-    UNIQUE (weekday, time, room) -- natural key
-) ENGINE=InnoDB;
-
--- Set up table Workshops
-
-CREATE TABLE workshops (
-    crn SMALLINT NOT NULL PRIMARY KEY, -- natural key
-    course_crn SMALLINT NOT NULL,
-    position_count SMALLINT UNSIGNED NOT NULL,
-
-    FOREIGN KEY (course_crn) REFERENCES courses (crn)
+    UNIQUE (weekday, start_time, end_time, room) -- natural key
 ) ENGINE=InnoDB;
 
 -- Set up table Person/Users (TA/Instructor/Staff/Admin)
@@ -71,7 +59,7 @@ CREATE TABLE instructors (
 
 -- Set up table CourseApplications
 
-CREATE TABLE course_apps (
+CREATE TABLE applications (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn SMALLINT NOT NULL,
     ta_id INTEGER NOT NULL,
@@ -81,22 +69,6 @@ CREATE TABLE course_apps (
     time_response DATETIME NULL,
 
     FOREIGN KEY (crn) REFERENCES courses (crn),
-    FOREIGN KEY (ta_id) REFERENCES tas (id),
-    UNIQUE (crn, ta_id) -- natural key
-) ENGINE=InnoDB;
-
--- Set up table WorkshopApplications
-
-CREATE TABLE workshop_apps (
-    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    crn SMALLINT NOT NULL,
-    ta_id INTEGER NOT NULL,
-    for_credit BOOLEAN NOT NULL,
-    state ENUM('pending','approved','denied') NOT NULL,
-    time_signup DATETIME NOT NULL,
-    time_response DATETIME NULL,
-
-    FOREIGN KEY (crn) REFERENCES workshops (crn),
     FOREIGN KEY (ta_id) REFERENCES tas (id),
     UNIQUE (crn, ta_id) -- natural key
 ) ENGINE=InnoDB;
@@ -113,20 +85,7 @@ CREATE TABLE course_sessions (
     UNIQUE (crn, session_id) -- natural key
 ) ENGINE=InnoDB;
 
--- Set up table WorkshopSessions
-
-CREATE TABLE workshop_sessions (
-    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    crn SMALLINT NOT NULL,
-    session_id INTEGER NOT NULL,
-
-    FOREIGN KEY (crn) REFERENCES workshops (crn),
-    FOREIGN KEY (session_id) REFERENCES sessions (id),
-    UNIQUE (crn, session_id) -- natural key
-) ENGINE=InnoDB;
-
 -- Set up table Teaches
-
 CREATE TABLE teaches (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn SMALLINT NOT NULL,

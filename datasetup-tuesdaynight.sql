@@ -1,6 +1,6 @@
 -- Fill with data
 
-TRUNCATE tas;
+-- TRUNCATE tas;
 
-LOAD DATA LOCAL INFILE '/home/nbook/tnd/tas.csv' INTO TABLE tas ( netid, name, email, class_year );
+LOAD DATA LOCAL INFILE 'tas.csv' INTO TABLE tas ( netid, name, email, class_year );
 
