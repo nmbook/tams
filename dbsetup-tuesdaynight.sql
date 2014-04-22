@@ -22,7 +22,9 @@ CREATE TABLE courses (
     department CHAR(3) NOT NULL,
     course_number CHAR(4) NOT NULL,
     name VARCHAR(28) NOT NULL,
-    position_count SMALLINT UNSIGNED NOT NULL
+    parent_crn SMALLINT NULL,
+	position_count SMALLINT UNSIGNED NOT NULL,
+	FOREIGN KEY (parent_crn) REFERENCES courses(crn)
 ) ENGINE=InnoDB;
 
 -- Set up table Sessions
@@ -39,8 +41,7 @@ CREATE TABLE sessions (
 -- Set up table Person/Users (TA/Instructor/Staff/Admin)
 
 CREATE TABLE tas (
-    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    netid CHAR(8) NOT NULL UNIQUE, -- natural key
+    netid VARCHAR(8) NOT NULL PRIMARY KEY, -- natural key
     name VARCHAR(32) NOT NULL,
     email VARCHAR(256) NOT NULL,
     class_year SMALLINT(4) NULL,
@@ -49,8 +50,7 @@ CREATE TABLE tas (
 
 -- role ENUM('student','faculty','staff','admin') NOT NULL,
 CREATE TABLE instructors (
-    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    netid CHAR(8) NOT NULL UNIQUE, -- natural key
+    netid VARCHAR(8) NOT NULL PRIMARY KEY, -- natural key
     name VARCHAR(32) NOT NULL,
     email VARCHAR(256) NOT NULL,
     office_room VARCHAR(32) NULL,
@@ -62,14 +62,14 @@ CREATE TABLE instructors (
 CREATE TABLE applications (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn SMALLINT NOT NULL,
-    ta_id INTEGER NOT NULL,
+    ta_id VARCHAR(8) NOT NULL,
     for_credit BOOLEAN NOT NULL,
     state ENUM('pending','approved','denied') NOT NULL,
     time_signup DATETIME NOT NULL,
     time_response DATETIME NULL,
 
     FOREIGN KEY (crn) REFERENCES courses (crn),
-    FOREIGN KEY (ta_id) REFERENCES tas (id),
+    FOREIGN KEY (ta_id) REFERENCES tas (netid),
     UNIQUE (crn, ta_id) -- natural key
 ) ENGINE=InnoDB;
 
@@ -89,9 +89,9 @@ CREATE TABLE course_sessions (
 CREATE TABLE teaches (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn SMALLINT NOT NULL,
-    instructor_id INTEGER NOT NULL,
+    instructor_id VARCHAR(8) NOT NULL,
 
-    FOREIGN KEY (instructor_id) REFERENCES instructors (id),
+    FOREIGN KEY (instructor_id) REFERENCES instructors (netid),
     FOREIGN KEY (crn) REFERENCES courses (crn),
     UNIQUE (crn, instructor_id) -- natural key
 ) ENGINE=InnoDB;
