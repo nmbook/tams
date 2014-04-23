@@ -11,8 +11,8 @@ $class = $_POST["course"];
 <h1>TuesdayNight on Betaweb</h1>
 <h2>TA Lister</h2>
 <p> Would you like to look up the TAs for another CSC course?</p>
-<form action="ta-list-for-course.php" method="post" placeholder="<?php echo $class?>" >
-Course: <input type="text" name="course"><br>
+<form action="ta-list-for-course.php" method="post">
+Course: <input type="text" name="course"  placeholder="<?php echo $class?>" ><br>
 <input type="submit">
 
 <?php
