@@ -63,6 +63,26 @@ class Instructor
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         return new Instructor($stmt->fetch());
     }
+	
 
+	public function assignCourse($crn) {
+	Utils::getVoid('Update Teaches SET instructor = :netid WHERE crn = :crn',
+		array(':netid' => $this-> netid,
+		':crn' => $crn));
+	update();
+
+	}
+
+	static public function getCount() {
+        global $db;
+        $stmt = $db->prepare('SELECT COUNT(*) FROM Instructors');
+        if (!$stmt->execute(array())) {
+            var_dump( $stmt->errorInfo());
+            exit;
+        }
+        $stmt->setFetchMode(PDO::FETCH_NUM);
+        $result = $stmt->fetch();
+        return $result[0] + 0;
+    }
 }
 
