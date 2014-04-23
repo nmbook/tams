@@ -9,7 +9,6 @@ class Utils {
 			$guard = $stmt->execute($arr);
 		}
 		if (!$guard) {
-			echo $sql;
 			print_r($stmt->errorInfo());
 			exit;	
 		}
