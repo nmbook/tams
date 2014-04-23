@@ -66,11 +66,10 @@ class Instructor
 	
 
 	public function assignCourse($crn) {
-	Utils::getVoid('Update Teaches SET instructor = :netid WHERE crn = :crn',
-		array(':netid' => $this-> netid,
-		':crn' => $crn));
-	update();
-
+		Utils::getVoid('Update Teaches SET instructor = :netid WHERE crn = :crn',
+			array(':netid' => $this-> netid,
+			':crn' => $crn));
+		update();
 	}
 
 	static public function getCount() {
@@ -84,5 +83,16 @@ class Instructor
         $result = $stmt->fetch();
         return $result[0] + 0;
     }
+
+	static public function import($arr) {
+		foreach ($arr as $row) {
+			$row2 = array();
+			foreach ($row as $key => $value) {
+				$row2[':' . $key] = $value;	
+			}
+			Utils::getVoid('INSERT INTO instructors (netid,name,email,office_room) VALUES (:netid,:name,:email,:office_room)',
+				$row2);
+		}
+	}
 }
 
