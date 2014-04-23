@@ -9,11 +9,6 @@ require_once('ta.php');
 <body>
 <h1>TuesdayNight on Betaweb</h1>
 <h2>TA Lister</h2>
-<form action="welcome.php" method="post">
-Name: <input type="text" name="name"><br>
-E-mail: <input type="text" name="email"><br>
-<input type="submit">
-</form>
 
 <?php
 
