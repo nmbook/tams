@@ -55,14 +55,15 @@ WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = 'fall' AND c.depa
 --ON t.netid = ca.ta_netid 
 --WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
 
---WE NEED TO ADD COURSE_CRN TO THE WORKSHOPAPPLICATIONS RELATION
+
 -- #2:
 SELECT name
 FROM courses c
-INNER JOIN workshop_apps wa
-ON c.crn = wa.course_crn
 INNER JOIN workshops w
-ON w.crn = wa.workshop_crn
+ON w.coursecrn = c.crn
+INNER JOIN workshop_apps wa
+ON w.crn = wa.course_crn
+
 WHERE wa.state = "approved" AND c.year = 2015 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
 
 -- CASE 3
@@ -86,10 +87,10 @@ WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = 'fall' AND c.depa
 
 SELECT t.email
 FROM courses c
-INNER JOIN workshop_apps wa
-ON c.crn = wa.course_crn
 INNER JOIN workshops w
-ON w.crn = wa.workshop_crn
+ON w.coursecrn = c.crn
+INNER JOIN workshop_apps wa
+ON w.crn = wa.course_crn
 INNER JOIN tas t
 ON t.id = wa.ta_id
 WHERE wa.state = "approved" AND c.year = 2015 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
