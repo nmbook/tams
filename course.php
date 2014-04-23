@@ -88,8 +88,20 @@ class Course {
 	}
 
 	public function addSession($session) {
-		$this->getVoid('INSERT INTO course_sessions (crn,session_id) VALUES (:crn,:session)',
+		Utils::getVoid('INSERT INTO course_sessions (crn,session_id) VALUES (:crn,:session)',
 			array(':crn' => $this->crn, ':session' => $session->getID()));
+	}
+
+	static public function import($arr) {
+		foreach ($arr as $row) {
+			$row2 = array();
+			foreach ($row as $key => $val) {
+				$row2[':' . $key] = $val;
+			}
+			Utils::getVoid('INSERT INTO courses (crn,year,semester,department,course_number,name,parent_crn,position_count)
+				VALUES (:crn,:year,:semester,:department,:course_number,:name,:parent_crn,:position_count)',
+				$row2);
+		}
 	}
 
 }
