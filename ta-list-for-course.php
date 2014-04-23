@@ -3,6 +3,7 @@ require_once('../dbsetup.php');
 require_once('utils.php');
 function getTas() {
 
+global $db;
  $stmt = $db->prepare('SELECT netid,name,email,class_year FROM courses c
 						INNER JOIN course_apps ca ON c.crn = ca.crn
 						INNER JOIN tas t ca ON t.netid = ca.netid
