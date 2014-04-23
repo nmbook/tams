@@ -7,7 +7,7 @@ class Session {
 	private $weekday;
 	private $start_time;
 	private $end_time;
-	private $crn
+	private $crn;
 	private $room;
 
 	public function __construct($row) {
@@ -27,9 +27,9 @@ class Session {
 	public function getID() { return $this->_id; }
 
 	public static function import($arr) {
-		for ($arr as $row) {
+		foreach ($arr as $row) {
 			$row2 = array();
-			for ($row as $key => $value) {
+			foreach ($row as $key => $value) {
 				$row2[':' . $key] = $value;	
 			}
 			Utils::getVoid('INSERT INTO sessions (weekday,start_time,end_time,room,crn) VALUES (:weekday,:start_time,:end_time,:room,:crn)',
