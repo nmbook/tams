@@ -16,13 +16,13 @@ DROP TABLE IF EXISTS instructors;
 -- Set up table Courses
 
 CREATE TABLE courses (
-    crn SMALLINT NOT NULL PRIMARY KEY, -- natural key
+    crn INTEGER NOT NULL PRIMARY KEY, -- natural key
     year SMALLINT(4) NOT NULL,
     semester ENUM('spring','fall','summer','winter') NOT NULL,
     department CHAR(3) NOT NULL,
     course_number CHAR(4) NOT NULL,
     name VARCHAR(28) NOT NULL,
-    parent_crn SMALLINT NULL,
+    parent_crn INTEGER NULL,
 	position_count SMALLINT UNSIGNED NOT NULL,
 
 	FOREIGN KEY (parent_crn) REFERENCES courses(crn)
@@ -36,7 +36,7 @@ CREATE TABLE sessions (
     start_time TIME NOT NULL,
 	end_time TIME NOT NULL,
     room VARCHAR(32) NOT NULL,
-	crn SMALLINT NOT NULL,
+	crn INTEGER NOT NULL,
     UNIQUE (crn,weekday, start_time, end_time, room), -- natural key
 
 	FOREIGN KEY (crn) REFERENCES courses(crn)
@@ -65,7 +65,7 @@ CREATE TABLE instructors (
 
 CREATE TABLE applications (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    crn SMALLINT NOT NULL,
+    crn INTEGER NOT NULL,
     ta_id VARCHAR(8) NOT NULL,
     for_credit BOOLEAN NOT NULL,
     state ENUM('pending','approved','denied') NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE applications (
 
 CREATE TABLE course_sessions (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    crn SMALLINT NOT NULL,
+    crn INTEGER NOT NULL,
     session_id INTEGER NOT NULL,
 
     FOREIGN KEY (crn) REFERENCES courses (crn),
@@ -92,7 +92,7 @@ CREATE TABLE course_sessions (
 -- Set up table Teaches
 CREATE TABLE teaches (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    crn SMALLINT NOT NULL,
+    crn INTEGER NOT NULL,
     instructor_id VARCHAR(8) NOT NULL,
 
     FOREIGN KEY (instructor_id) REFERENCES instructors (netid),

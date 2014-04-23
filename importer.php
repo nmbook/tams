@@ -9,7 +9,7 @@ require_once('session.php');
 
 function handle_import($data, $as, $dt) {
     if ($as == 'instructors') {
-        $instructors = explode("\n", $data);
+        $instructors = explode("\n", trim($data));
         $instructors = array_map(function ($instructor) {
             $instructor = json_decode($instructor, true);
             return array(
@@ -25,7 +25,7 @@ function handle_import($data, $as, $dt) {
             echo "<p>Success!</p>\n";
         }
     } elseif ($as == 'courses') {
-        $courses = explode("\n", $data);
+        $courses = explode("\n", trim($data));
         $sessions = array();
         $courses = array_map(function ($course) {
             $course = json_decode($course, true);
