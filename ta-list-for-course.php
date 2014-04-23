@@ -1,6 +1,7 @@
 <?php
 require_once('ta.php');
 
+$class = $_POST["course"];
 
 ?>
 <!DOCTYPE html>
@@ -9,15 +10,13 @@ require_once('ta.php');
 <body>
 <h1>TuesdayNight on Betaweb</h1>
 <h2>TA Lister</h2>
-<form action="welcome.php" method="post">
-Name: <input type="text" name="name"><br>
-E-mail: <input type="text" name="email"><br>
+<p> Would you like to look up the TAs for another CSC course?</p>
+<form action="ta-list-for-course.php" method="post">
+Course: <input type="text" name="course"  placeholder="<?php echo $class?>" ><br>
 <input type="submit">
-</form>
 
 <?php
 
-$class = $_POST["course"];
 echo $class;
  echo '<table cellspacing="1"><thead><th width="150">Net ID</th><th width="150">Name</th><th width="250">E-Mail</th><th>Class Year</th></thead><tbody>';
 $tas = TA::getByclass($class);
