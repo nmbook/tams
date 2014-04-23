@@ -9,6 +9,12 @@ require_once('ta.php');
 <body>
 <h1>TuesdayNight on Betaweb</h1>
 <h2>TA Lister</h2>
+<form action="welcome.php" method="post">
+Name: <input type="text" name="name"><br>
+E-mail: <input type="text" name="email"><br>
+<input type="submit">
+</form>
+
 <?php
  echo '<table cellspacing="1"><thead><th width="150">Net ID</th><th width="150">Name</th><th width="250">E-Mail</th><th>Class Year</th></thead><tbody>';
 $tas = TA::getByclass();
