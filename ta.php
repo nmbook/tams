@@ -64,7 +64,7 @@ class TA {
 
 	public function applyWorkshop($crn,$forCredit) {
         Utils::getVoid('INSERT INTO workshop_apps (crn,ta_id,time_signup,time_response,state,for_credit) VALUES (:crn,:netid,:signup,:response,:state,:credit)',
-            array(':coursecrn' => $crn,
+            array(':crn' => $crn,
             ':netid' => $this->netid,
             ':signup' => $_SERVER['REQUEST_TIME'],
             ':response' => NULL,
@@ -97,5 +97,17 @@ class TA {
         $result = $stmt->fetch();
         return $result[0] + 0;
     }
+
+	static public function getByclass($class) {
+
+		return Utils::getMapping('SELECT netid,name,email,class_year FROM courses c
+                        INNER JOIN course_apps ca ON c.crn = ca.crn
+                        INNER JOIN tas t ON t.netid = ca.netid
+                        WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = "fall"
+                        AND c.department = "CSC" AND course_number = :class;',
+            array(':class' => $class),
+            function ($x) { return new TA($x); });
+    }
+
 }
 
