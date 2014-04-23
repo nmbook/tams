@@ -4,31 +4,37 @@ require_once('utils.php');
 
 class Session {
 	private $_id;
-	private $day;
-	private $time;
+	private $weekday;
+	private $start_time;
+	private $end_time;
+	private $crn
 	private $room;
 
 	public function __construct($row) {
-		$this->day = $row['day'];
-		$this->time = $row['time'];
+		$this->weekday = $row['weekday'];
+		$this->start_time = $row['start_time'];
+		$this->end_time = $row['end_time'];
 		$this->room = $row['room'];
+		$this->crn = $row['crn'];
 		$this->_id = $row['id'];
 	}
 
-	public function getDay() { return $this->day; }
-	public function getTime() { return $this->time; }
+	public function getWeekday() { return $this->weekday; }
+	public function getStartTime() { return $this->start_time; }
+	public function getEndTime() { return $this->end_time; }
 	public function getRoom() { return $this->room; }
+	public function getCrn() { return $this->crn; }
 	public function getID() { return $this->_id; }
 
-	public static insertSession($day, $time, $room) {
-		return Utils::getVoid('INSERT INTO sessions (day,time,room) VALUES (:day,:time,:room)',
-			array(':day' => $day, ':time' => $time, ':room' => $room));
-	}
-
-	public static getSession($day,$time,$room) {
-		return Utils::getSingle('SELECT * FROM sessions WHERE day=:day AND time=:time AND room=:room',
-			array(':day' => $day, ':time' => $time, ':room' => $room),
-			function ($x) { return Session($x); });
+	public static function import($arr) {
+		for ($arr as $row) {
+			$row2 = array();
+			for ($row as $key => $value) {
+				$row2[':' . $key] = $value;	
+			}
+			Utils::getVoid('INSERT INTO sessions (weekday,start_time,end_time,room,crn) VALUES (:weekday,:start_time,:end_time,:room,:crn)',
+				$row2);
+		}
 	}
 
 }
