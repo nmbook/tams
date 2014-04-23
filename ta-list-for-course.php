@@ -16,8 +16,11 @@ E-mail: <input type="text" name="email"><br>
 </form>
 
 <?php
+
+$class = $_POST["course"];
+echo $class;
  echo '<table cellspacing="1"><thead><th width="150">Net ID</th><th width="150">Name</th><th width="250">E-Mail</th><th>Class Year</th></thead><tbody>';
-$tas = TA::getByclass();
+$tas = TA::getByclass($class);
     foreach ($tas as $ta) {
         echo "<tr><td>{$ta->getNetID()}</td><td>{$ta->getName()}</td><td>{$ta->getEmail()}</td><td>{$ta->getClassYear()}</td></tr>";
     }
