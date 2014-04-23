@@ -97,5 +97,17 @@ class TA {
         $result = $stmt->fetch();
         return $result[0] + 0;
     }
+
+	static public function getByclass($class) {
+
+		return Utils::getMapping('SELECT netid,name,email,class_year FROM tas LIMIT 10;', //courses c
+                        //INNER JOIN course_apps ca ON c.crn = ca.crn
+                        //INNER JOIN tas t ON t.netid = ca.netid
+                        //WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = "fall"
+                        //AND c.department = "CSC" AND course_number = 173;',
+            array(),
+            function ($x) { return new TA($x); });
+    }
+
 }
 
