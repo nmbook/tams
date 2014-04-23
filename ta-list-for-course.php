@@ -1,7 +1,7 @@
 <?php
 require_once('ta.php');
 
-$class = $_POST["course"];
+$class = $_GET["course"];
 
 ?>
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ $class = $_POST["course"];
 <h1>TuesdayNight on Betaweb</h1>
 <h2>TA Lister</h2>
 <p> Would you like to look up the TAs for another CSC course?</p>
-<form action="ta-list-for-course.php" method="post">
+<form action="ta-list-for-course.php" method="get">
 Course: <input type="text" name="course"  placeholder="<?php echo $class?>" ><br>
 <input type="submit">
 
