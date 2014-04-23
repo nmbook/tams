@@ -4,6 +4,7 @@
 -- Remove tables in order to remove constraints correctly
 
 DROP TABLE IF EXISTS teaches;
+DROP TABLE IF EXISTS course_sessions;
 DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS workshops;
@@ -23,6 +24,7 @@ CREATE TABLE courses (
     name VARCHAR(28) NOT NULL,
     parent_crn SMALLINT NULL,
 	position_count SMALLINT UNSIGNED NOT NULL,
+
 	FOREIGN KEY (parent_crn) REFERENCES courses(crn)
 ) ENGINE=InnoDB;
 
@@ -35,7 +37,8 @@ CREATE TABLE sessions (
 	end_time TIME NOT NULL,
     room VARCHAR(32) NOT NULL,
 	crn SMALLINT NOT NULL,
-    UNIQUE (crn,weekday, start_time, end_time, room) -- natural key
+    UNIQUE (crn,weekday, start_time, end_time, room), -- natural key
+
 	FOREIGN KEY (crn) REFERENCES courses(crn)
 ) ENGINE=InnoDB;
 
