@@ -3,11 +3,11 @@ require_once('../dbsetup.php');
 require_once('utils.php');
 function getTas() {
 
-return Utils::getMapping('SELECT netid,name,email,class_year FROM courses c
-						INNER JOIN course_apps ca ON c.crn = ca.crn
-						INNER JOIN tas t ca ON t.netid = ca.netid
-						WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = "fall"
-						AND c.department = "CSC" AND course_number = 173;',
+return Utils::getMapping('SELECT netid,name,email,class_year FROM ta//courses c
+						//INNER JOIN course_apps ca ON c.crn = ca.crn
+						//INNER JOIN tas t ON t.netid = ca.netid
+						//WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = "fall"
+						//AND c.department = "CSC" AND course_number = 173;',
             array(),
             function ($x) { return new TA($x); });
     }
