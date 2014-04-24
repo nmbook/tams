@@ -4,7 +4,6 @@
 -- Remove tables in order to remove constraints correctly
 
 DROP TABLE IF EXISTS teaches;
-DROP TABLE IF EXISTS course_sessions;
 DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS workshops;
@@ -75,18 +74,6 @@ CREATE TABLE applications (
     FOREIGN KEY (crn) REFERENCES courses (crn),
     FOREIGN KEY (ta_id) REFERENCES tas (netid),
     UNIQUE (crn, ta_id) -- natural key
-) ENGINE=InnoDB;
-
--- Set up table CourseSessions
-
-CREATE TABLE course_sessions (
-    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    crn INTEGER NOT NULL,
-    session_id INTEGER NOT NULL,
-
-    FOREIGN KEY (crn) REFERENCES courses (crn),
-    FOREIGN KEY (session_id) REFERENCES sessions (id),
-    UNIQUE (crn, session_id) -- natural key
 ) ENGINE=InnoDB;
 
 -- Set up table Teaches
