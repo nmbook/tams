@@ -94,7 +94,7 @@ class Instructor
 				$row2);
 		}
 	}
-   static public function getByNetid($netid) {
+   static public function getByCoursesNetid($netid) {
 
         return Utils::getMapping('SELECT c.name, weekday, time, room
 				FROM instructors i
@@ -107,7 +107,7 @@ class Instructor
 				INNER JOIN sessions s
 				ON cs.session_id = s.id
 				WHERE i.netid = :netid
-				 AND c.semester = "spring" AND c.year = 2014',
+				 AND c.semester = \'spring\' AND c.year = 2014',
 	
             array(':netid' => $netid),
             function ($x) { return new Instructor ($x); });
