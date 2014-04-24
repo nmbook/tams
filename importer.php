@@ -27,7 +27,7 @@ function handle_import($data, $as, $dt) {
     } elseif ($as == 'courses') {
         $courses = explode("\n", trim($data));
         $sessions = array();
-        $courses = array_map(function use ($sessions) ($course) {
+        $courses = array_map(function ($course) use ($sessions) {
             $course = json_decode($course, true);
             foreach ($course['sessions'] as $session) {
                 $sessions[] = array(
