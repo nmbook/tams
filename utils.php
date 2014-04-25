@@ -10,6 +10,9 @@ class Utils {
 		}
 		if (!$guard) {
 			print_r($stmt->errorInfo());
+			echo "\n";
+			print_r($arr);
+			echo "\n";
 			exit;	
 		}
 	}
