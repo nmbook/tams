@@ -12,7 +12,6 @@
 $dbname = 'nbook';
 require_once('../dbsetup.php');
 
-
 class Instructor
 {
     private $netid;
@@ -63,7 +62,6 @@ class Instructor
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         return new Instructor($stmt->fetch());
     }
-	
 
 	public function assignCourse($crn) {
 		Utils::getVoid('Update Teaches SET instructor = :netid WHERE crn = :crn',
@@ -115,5 +113,5 @@ class Instructor
             array(':netid' => $netid),
             function ($x) { return new Instructor ($x); });
     }
-
 }
+
