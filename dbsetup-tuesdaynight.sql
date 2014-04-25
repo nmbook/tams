@@ -65,26 +65,26 @@ CREATE TABLE instructors (
 CREATE TABLE applications (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn INTEGER NOT NULL,
-    ta_id VARCHAR(8) NOT NULL,
+    netid VARCHAR(8) NOT NULL,
     for_credit BOOLEAN NOT NULL,
     state ENUM('pending','approved','denied') NOT NULL,
     time_signup DATETIME NOT NULL,
     time_response DATETIME NULL,
 
     FOREIGN KEY (crn) REFERENCES courses (crn),
-    FOREIGN KEY (ta_id) REFERENCES tas (netid),
-    UNIQUE (crn, ta_id) -- natural key
+    FOREIGN KEY (netid) REFERENCES tas (netid),
+    UNIQUE (crn, netid) -- natural key
 ) ENGINE=InnoDB;
 
 -- Set up table Teaches
 CREATE TABLE teaches (
     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     crn INTEGER NOT NULL,
-    instructor_id VARCHAR(8) NOT NULL,
+    netid VARCHAR(8) NOT NULL,
 
-    FOREIGN KEY (instructor_id) REFERENCES instructors (netid),
+    FOREIGN KEY (netid) REFERENCES instructors (netid),
     FOREIGN KEY (crn) REFERENCES courses (crn),
-    UNIQUE (crn, instructor_id) -- natural key
+    UNIQUE (crn, netid) -- natural key
 ) ENGINE=InnoDB;
 -- CHECK (user_id IN (SELECT id FROM users WHERE role = 'faculty')), -- only faculty can teach courses
 

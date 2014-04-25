@@ -21,15 +21,14 @@ function handle_import($data, $as, $dt) {
         }, $instructors);
         $c = count($instructors);
         echo "<p>Inserting $c instructors...</p>\n";
-        if (Instructor::import($instructors)) {
-            echo "<p>Success!</p>\n";
-        }
+        Instructor::import($instructors);
+        echo "<p>Success!</p>\n";
     } elseif ($as == 'courses') {
         $courses = explode("\n", trim($data));
         $sessions = array();
 		$teaches = array();
         foreach ($courses as $val) {
-            $course = json_decode($course, true);
+            $course = json_decode($val, true);
 			$crn = $course['crn'];
 			foreach ($course['instructors'] as $instructor) {
 				$teaches[] = array(
@@ -46,22 +45,21 @@ function handle_import($data, $as, $dt) {
                     'end_time'=>$session['end_time'],
                 );
             }
-        };
+        }
+
         $c = count($courses);
         echo "<p>Inserting $c courses...</p>\n";
-        if (Course::import($courses)) {
-            echo "<p>Success!</p>\n";
-        }
+        Course::import($courses);
+
         $c = count($sessions);
         echo "<p>Inserting $c course sessions...</p>\n";
-        if (Session::import($sessions)) {
-            echo "<p>Success!</p>\n";
-        }
-		$c = count($teaches);
+        Session::import($sessions);
+
+        $c = count($teaches);
 		echo "<p>Inserting $c teaches relations...</p>\n";
-		if (Instructor::importClasses($teaches)) {
-			echo "<p>Success!</p>\n";
-		}
+        Instructor::importClasses($teaches);
+
+        echo "<p>Success!</p>\n";
     }
     //echo '<pre>'; print_r($courses);
 }
