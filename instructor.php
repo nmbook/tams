@@ -91,7 +91,7 @@ class Instructor
 
 	static public function importClasses($arr) {
 		foreach ($arr as $row) {
-			Utils::getVoid('INSERT INTO teaches (crn,instructor_id) VALUES (:crn,:netid)',
+			Utils::getVoid('INSERT INTO teaches (crn,netid) VALUES (:crn,:netid)',
 				Utils::prepareArray($row));
 		}
 	}	
