@@ -14,6 +14,14 @@ class Utils {
 		}
 	}
 
+	public static function prepareArray($row) {
+		$row2 = array();
+		foreach ($row as $key => $value) {
+			$row2[':' . $key] = $value;
+		}
+		return $row2;
+	}
+
 	public static function getMapping($sql,$arr,$callback,$limit_start = null,$limit_len = null) {
     	    global $db;
     	    $stmt = $db->prepare($sql);
@@ -34,10 +42,10 @@ class Utils {
 		return $callback($stmt->fetch());
 	}
 
-	public static function getVoid($sql,$arr) {
+	public static function getVoid($sql,$arr,$ignoreError=false) {
 		global $db;
 		$stmt = $db->prepare($sql);
-		Utils::debug($stmt,$arr);
+		if (!$ignoreError) Utils::debug($stmt,$arr);
 	}
 }
 ?>

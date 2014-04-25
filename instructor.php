@@ -86,17 +86,20 @@ class Instructor
 
 	static public function import($arr) {
 		foreach ($arr as $row) {
-			$row2 = array();
-			foreach ($row as $key => $value) {
-				$row2[':' . $key] = $value;	
-			}
 			Utils::getVoid('INSERT INTO instructors (netid,name,email,office_room) VALUES (:netid,:name,:email,:office_room)',
-				$row2);
+				Utils::prepareArray($row));
 		}
 	}
-   static public function getByCoursesNetid($netid) {
 
-        return Utils::getMapping('SELECT c.name, weekday, time, room
+	static public function importClasses($arr) {
+		foreach ($arr as $row) {
+			Utils::getVoid('INSERT INTO teaches (crn,instructor_id) VALUES (:crn,:instructor_id)',
+				Utils::prepareArray($row));
+		}
+	}	
+
+	static public function getByCoursesNetid($netid) {
+		return Utils::getMapping('SELECT c.name, weekday, time, room
 				FROM instructors i
 				INNER JOIN teaches t
 				ON t.net_id = i.net_id
