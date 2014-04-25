@@ -111,10 +111,8 @@ class Course {
                 ON t.net_id = i.net_id
                 INNER JOIN courses c
                 ON c.crn = t.crn
-                INNER JOIN course_sessions cs
-                ON c.crn = cs.crn
                 INNER JOIN sessions s
-                ON cs.session_id = s.id
+                ON c.crn = s.crn
                 WHERE i.netid = :netid
                  AND c.semester = :term AND c.year = :year',
 
