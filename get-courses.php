@@ -23,7 +23,7 @@ Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 
 
  echo '<table cellspacing="1"><thead><th width="150">CRN</th><th width="150">Year</th><th width="250">Semester</th><th>Dept</th></thead><tbody>';
-$courses = COURSE::getByCoursesNetid($class);
+$courses = COURSE::getCoursesByNetid($class, $year);
     foreach ($courses as $course) {
         echo "<tr><td>{$course->getCrn()}</td><td>{$course->getYear()}</td><td>{$course->getSemester()}</td><td>{$course->getDepartment()}</td></tr>";
     }
