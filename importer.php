@@ -27,7 +27,7 @@ function handle_import($data, $as, $dt) {
         $courses = explode("\n", trim($data));
         $sessions = array();
 		$teaches = array();
-        foreach ($courses as $val) {
+        $courses = array_map(function ($val) use (&$teaches,&$sessions) {
             $course = json_decode($val, true);
 			$crn = $course['crn'];
 			foreach ($course['instructors'] as $instructor) {
@@ -45,8 +45,8 @@ function handle_import($data, $as, $dt) {
                     'end_time'=>$session['end_time'],
                 );
             }
-        }
-		$courses = array_map(function ($x) { return json_decode($x,true); },$courses);
+			return $course;
+        },$courses);
         $c = count($courses);
         echo "<p>Inserting $c courses...</p>\n";
         Course::import($courses);
