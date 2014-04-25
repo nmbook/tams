@@ -33,7 +33,7 @@ function handle_import($data, $as, $dt) {
 			foreach ($course['instructors'] as $instructor) {
 				$teaches[] = array(
 					'crn' => $crn,
-					'instructor_id' => $instructor,
+					'netid' => $instructor,
 				);
 			}
             foreach ($course['sessions'] as $session) {
