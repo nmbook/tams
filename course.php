@@ -114,10 +114,9 @@ class Course {
                 INNER JOIN sessions s
                 ON c.crn = s.crn
                 WHERE i.netid = :netid
-                 AND c.semester = :term AND c.year = :year',
+                AND c.year = :year',
 
             array(':netid' => $netid,
-                    ':term' => $term,
                     ':year' => $year),
             function ($x) { return new Courses ($x); });
     }

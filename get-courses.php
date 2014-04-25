@@ -1,9 +1,7 @@
 <?php
 require_once('course.php');
-
-$class = $_GET["course"];
 $year = $_GET["year"];
-$term = $_GET["term"];
+$class = $_GET["course"];
 
 ?>
 <!DOCTYPE html>
@@ -15,7 +13,6 @@ $term = $_GET["term"];
 <p> Would you like to look up the TAs for another CSC course?</p>
 <form action="get-courses.php" method="get">
 Course: <input type="text" name="course"  placeholder="<?php echo $class?>" ><br>
-Term: <input type="text" name="term"  placeholder="<?php echo $term?>" ><br>
 Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 
 
