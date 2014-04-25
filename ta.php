@@ -12,7 +12,7 @@
  * int $ta->getClassYear()
  */
 
-//$dbname = 'nbook';
+$dbname = 'nbook';
 require_once('../dbsetup.php');
 require_once('utils.php');
 
