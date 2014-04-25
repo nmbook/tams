@@ -11,6 +11,7 @@ $class = $_GET["course"];
 <h1>TuesdayNight on Betaweb</h1>
 <h2>TA Lister</h2>
 <p> Would you like to look up the TAs for another CSC course?</p>
+<p><?php echo $year; echo $class?> </p>
 <form action="get-courses.php" method="get">
 Course: <input type="text" name="course"  placeholder="<?php echo $class?>" ><br>
 Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
