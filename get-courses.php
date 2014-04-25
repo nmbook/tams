@@ -22,17 +22,14 @@ Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 <?php
 
 
- echo '<table cellspacing="1"><thead><th width="150">CRN</th><th width="150">Year</th><th width="250">Semester</th><th>Dept</th></thead><tbody>';
+ echo '<table cellspacing="1"><thead><th width="300">Course Name</th><th width="50">Day</th><th width="150">Time</th><th>Room</th></thead><tbody>';
 $courses = COURSE::getCoursesByNetid($class, $year);
     foreach ($courses as $course) {
-    "<tr><td>{$course['name']}</td><td>{$course['weekday']}</td><td>{$course['start_time']}</td><td>{$course['room']}</td></tr>";
+   echo "<tr><td>{$course['name']}</td><td>{$course['weekday']}</td><td>{$course['start_time']}</td><td>{$course['room']}</td></tr>";
 	}
     echo '</tbody></table>';
 
 ?>
-<p> a
-<?php echo $courses?>
-</p>
 </body>
 </html>
 
