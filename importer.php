@@ -45,9 +45,14 @@ function handle_import($data, $as, $dt) {
                     'end_time'=>$session['end_time'],
                 );
             }
+			unset($course['instructors']);
+			unset($course['sessions']);
 			return $course;
         },$courses);
         $c = count($courses);
+		echo "<p>";
+		print_r($courses[0]);
+		echo "</p>\n";
         echo "<p>Inserting $c courses...</p>\n";
         Course::import($courses);
 
