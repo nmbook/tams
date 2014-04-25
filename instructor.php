@@ -94,23 +94,6 @@ class Instructor
 				$row2);
 		}
 	}
-   static public function getByCoursesNetid($netid) {
 
-        return Utils::getMapping('SELECT c.name, weekday, time, room
-				FROM instructors i
-				INNER JOIN teaches t
-				ON t.net_id = i.net_id
-				INNER JOIN courses c
-				ON c.crn = t.crn
-				INNER JOIN course_sessions cs
-				ON c.crn = cs.crn
-				INNER JOIN sessions s
-				ON cs.session_id = s.id
-				WHERE i.netid = :netid
-				 AND c.semester = \'spring\' AND c.year = 2014',
-	
-            array(':netid' => $netid),
-            function ($x) { return new Instructor ($x); });
-    }
 
 }
