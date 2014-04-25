@@ -108,7 +108,7 @@ class Course {
         return Utils::getMapping('SELECT c.name, weekday, start_time, room
                 FROM instructors i
                 INNER JOIN teaches t
-                ON t.net_id = i.net_id
+                ON t.netid = i.netid
                 INNER JOIN courses c
                 ON c.crn = t.crn
                 INNER JOIN sessions s
