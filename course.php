@@ -104,7 +104,6 @@ class Course {
 		}
 	}
 	   static public function getCoursesByNetid($netid, $year) {
-		echo $netid;echo $year;
         return Utils::getMapping('SELECT c.name, weekday, start_time, room
                 FROM instructors i
                 INNER JOIN teaches t
@@ -118,7 +117,7 @@ class Course {
 
             array(':netid' => $netid,
                     ':year' => $year),
-            function ($x) { return new Course ($x); });
+            function ($x) { return $x; });
     }
 
 
