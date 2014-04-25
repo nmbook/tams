@@ -30,7 +30,7 @@ $courses = COURSE::getCoursesByNetid($class, $year);
     echo '</tbody></table>';
 
 ?>
-<p>
+<p> a
 <?php echo $courses?>
 </p>
 </body>
