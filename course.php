@@ -103,7 +103,7 @@ class Course {
 				$row2);
 		}
 	}
-	   static public function getByCoursesNetid($netid, $term, $year) {
+	   static public function getCoursesByNetid($netid, $year) {
 
         return Utils::getMapping('SELECT c.name, weekday, start_time, room
                 FROM instructors i

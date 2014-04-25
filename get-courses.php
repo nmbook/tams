@@ -9,8 +9,8 @@ $class = $_GET["course"];
 <head><title>Course Taught by a Professor (BETAWEB)</title></head>
 <body>
 <h1>TuesdayNight on Betaweb</h1>
-<h2>TA Lister</h2>
-<p> Would you like to look up the TAs for another CSC course?</p>
+<h2>Course Lister</h2>
+<p> Would you like to look up the courses for another proffesor?</p>
 <p><?php echo $year; echo $class?> </p>
 <form action="get-courses.php" method="get">
 Course: <input type="text" name="course"  placeholder="<?php echo $class?>" ><br>
@@ -18,10 +18,10 @@ Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 
 
 <input type="submit">
-
+</form>
 <?php
 
-echo $class;
+
  echo '<table cellspacing="1"><thead><th width="150">CRN</th><th width="150">Year</th><th width="250">Semester</th><th>Dept</th></thead><tbody>';
 $courses = COURSE::getByCoursesNetid($class);
     foreach ($courses as $course) {
