@@ -45,6 +45,8 @@ function handle_import($data, $as, $dt) {
                     'end_time'=>$session['end_time'],
                 );
             }
+			unset($course['instructors']);
+			unset($course['sessions']);
 			return $course;
         },$courses);
         $c = count($courses);
