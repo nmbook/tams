@@ -102,7 +102,7 @@ class TA {
 
 		return Utils::getMapping('SELECT netid,t.name,email,class_year FROM courses c
                         INNER JOIN applications a ON c.crn = a.crn
-                        INNER JOIN tas t ON t.netid = a.netid
+                        INNER JOIN tas t ON t.netid = a.tanetid
                         WHERE a.state = \'approved\' AND c.year = 2014 AND c.semester = \'spring\'
                         AND c.department = \'CSC\'AND course_number = :class;',
             array(':class' => $class),
