@@ -33,7 +33,7 @@ function handle_import($data, $as, $dt) {
 			foreach ($course['instructors'] as $instructor) {
 				$teaches[] = array(
 					'crn' => $crn,
-					'instructor_id' => $instructor,
+					'netid' => $instructor,
 				);
 			}
             foreach ($course['sessions'] as $session) {
@@ -50,9 +50,6 @@ function handle_import($data, $as, $dt) {
 			return $course;
         },$courses);
         $c = count($courses);
-		echo "<p>";
-		print_r($courses[0]);
-		echo "</p>\n";
         echo "<p>Inserting $c courses...</p>\n";
         Course::import($courses);
 
