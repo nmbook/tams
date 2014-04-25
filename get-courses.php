@@ -24,10 +24,10 @@ Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 <?php
 
 echo $class;
- echo '<table cellspacing="1"><thead><th width="150">Net ID</th><th width="150">Name</th><th width="250">E-Mail</th><th>Class Year</th></thead><tbody>';
+ echo '<table cellspacing="1"><thead><th width="150">CRN</th><th width="150">Year</th><th width="250">Semester</th><th>Dept</th></thead><tbody>';
 $courses = COURSE::getByCoursesNetid($class);
     foreach ($courses as $course) {
-        echo "<tr><td>{$course->getNetID()}</td><td>{$->getName()}</td><td>{$ta->getEmail()}</td><td>{$ta->getClassYear()}</td></tr>";
+        echo "<tr><td>{$course->getCrn()}</td><td>{$course->getYear()}</td><td>{$course->getSemester()}</td><td>{$course->getDepartment()}</td></tr>";
     }
     echo '</tbody></table>';
 
