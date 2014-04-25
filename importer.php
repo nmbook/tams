@@ -29,7 +29,7 @@ function handle_import($data, $as, $dt) {
         $sessions = array();
 		$teaches = array();
         foreach ($courses as $val) {
-            $course = json_decode($course, true);
+            $course = json_decode($val, true);
 			$crn = $course['crn'];
 			foreach ($course['instructors'] as $instructor) {
 				$teaches[] = array(
