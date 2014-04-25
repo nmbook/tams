@@ -46,7 +46,7 @@ function handle_import($data, $as, $dt) {
                 );
             }
         }
-
+		$courses = array_map(function ($x) { return json_decode($x,true); },$courses);
         $c = count($courses);
         echo "<p>Inserting $c courses...</p>\n";
         Course::import($courses);
