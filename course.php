@@ -118,7 +118,7 @@ class Course {
 
             array(':netid' => $netid,
                     ':year' => $year),
-            function ($x) { return new Courses ($x); });
+            function ($x) { return new Course ($x); });
     }
 
 
