@@ -11,9 +11,8 @@ $netid = $_GET["netid"];
 <h1>TuesdayNight on Betaweb</h1>
 <h2>Course Lister</h2>
 <p> Would you like to look up the courses for another proffesor?</p>
-<p><?php echo $year; echo $netid?> </p>
 <form action="get-courses.php" method="get">
-Course: <input type="text" name="netid"  placeholder="<?php echo $netid?>" ><br>
+Netid: <input type="text" name="netid"  placeholder="<?php ($netid)? echo $netid : echo 'cbrown' ?>" ><br>
 Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 
 
