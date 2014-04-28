@@ -14,6 +14,7 @@
 
 $dbname = 'nbook';
 require_once('../dbsetup.php');
+require_once('application.php');
 require_once('utils.php');
 
 class TA {
@@ -41,7 +42,7 @@ class TA {
 
     public function getApplications() {
         if ($this->applications == NULL)
-            $this->applications = Utils::getMapping("SELECT * FROM applications WHERE ta_id = :netid",
+            $this->applications = Utils::getMapping("SELECT * FROM applications WHERE netid = :netid",
             array(':netid' => $this->netid),
             function ($x) { return Application($x); });
         return $this->applications;
@@ -52,10 +53,11 @@ class TA {
 	}
 
 	public function applyCourse($crn,$forCredit) {
-		Utils::getVoid('INSERT INTO applications (crn,ta_id,time_signup,time_response,state,for_credit) VALUES (:crn,:netid,:signup,:response,:state,:credit)',
+		$dt = new DateTime();
+		Utils::getVoid('INSERT INTO applications (crn,netid,time_signup,time_response,state,for_credit) VALUES (:crn,:netid,:signup,:response,:state,:credit)',
 			array(':coursecrn' => $crn,
 			':netid' => $this->netid,
-			':signup' => $_SERVER['REQUEST_TIME'],
+			':signup' => $dt->format('H:i:s'),
 			':response' => NULL,
 			':state' => 'pending',
 			':credit' => $forCredit));
@@ -63,10 +65,11 @@ class TA {
 	}
 
 	public function applyWorkshop($crn,$forCredit) {
+		$dt = new DateTime();
         Utils::getVoid('INSERT INTO workshop_apps (crn,ta_id,time_signup,time_response,state,for_credit) VALUES (:crn,:netid,:signup,:response,:state,:credit)',
             array(':crn' => $crn,
             ':netid' => $this->netid,
-            ':signup' => $_SERVER['REQUEST_TIME'],
+            ':signup' => $dt->format('H:i:s'),
             ':response' => NULL,
             ':state' => 'pending',
             ':credit' => $forCredit));
