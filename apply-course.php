@@ -24,14 +24,29 @@
 	else {
 		$netid = $_GET['netid'];
 		$for_credit = $_GET['for_credit'];
-		$ta = TA::getByNetID($netid);
+		try {
+			$ta = TA::getByNetID($netid);
+		}
+		catch (Exception $e) {
+			echo 'Caught Exception1: ', $e->getMessage(), "\n";
+		}
 		if (isset($_GET['crn'])) {
 			$crn = $_GET['crn'];
 		}
 		else {
-			$crn = Course::getCoursesByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
+			try {
+				$crn = Course::getCoursesByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
+			}
+			catch (Exception $e) {
+				echo 'Caught Exception2: ', $e->getMessage(), "\n";
+			}
 		}
-		$ta->apply($crn,$for_credit);
+		try {
+			$ta->apply($crn,$for_credit);
+		}
+		catch (Exception $e) {
+			echo 'Caught Exception3: ', $e->getMessage(), "\n";	
+		}
 	}
 ?>
 </body>
