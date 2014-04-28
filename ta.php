@@ -64,18 +64,6 @@ class TA {
 		update();
 	}
 
-	public function applyWorkshop($crn,$forCredit) {
-		$dt = new DateTime();
-        Utils::getVoid('INSERT INTO workshop_apps (crn,ta_id,time_signup,time_response,state,for_credit) VALUES (:crn,:netid,:signup,:response,:state,:credit)',
-            array(':crn' => $crn,
-            ':netid' => $this->netid,
-            ':signup' => $dt->format('H:i:s'),
-            ':response' => NULL,
-            ':state' => 'pending',
-            ':credit' => $forCredit));
-        update();
-    }
-
     static public function getByNetID($netid) {
         return Utils::getSingle('SELECT netid,name,email,class_year FROM tas WHERE netid=:netid',
         	array(':netid' => $netid),

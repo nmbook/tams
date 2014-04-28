@@ -92,6 +92,19 @@ class Course {
 			array(':crn' => $this->crn, ':session' => $session->getID()));
 	}
 
+	static public function getCourseByCrn($crn) {
+		return Utils::getSingle('SELECT * FROM courses WHERE crn=:crn',
+			array(':crn' => $crn),
+			function ($x) { return Course($x);});
+	}
+
+	static public function getCourseByName($dept,$number,$year,$semester) {
+		return Utils::getSingle(
+			'SELECT * FROM  courses WHERE department=:dept AND course_number=:number AND year=:year AND semester=:semester',
+			array(':dept' => $dept, ':number' => $number, ':year' => $year, 'semester' => $semester),
+			function ($x) { return Course($x); });
+	}
+
 	static public function import($arr) {
 		foreach ($arr as $row) {
 			$row2 = array();
