@@ -27,7 +27,7 @@
 		try {
 			$ta = TA::getByNetID($netid);
 		}
-		catch (TamsException $e) {
+		catch (Exception $e) {
 			echo 'Caught Exception1: ', $e->getMessage(), "\n";
 		}
 		if (isset($_GET['crn'])) {
@@ -37,14 +37,14 @@
 			try {
 				$crn = Course::getCoursesByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
 			}
-			catch (TamsException $e) {
+			catch (Exception $e) {
 				echo 'Caught Exception2: ', $e->getMessage(), "\n";
 			}
 		}
 		try {
 			$ta->apply($crn,$for_credit);
 		}
-		catch (TamsException $e) {
+		catch (Exception $e) {
 			echo 'Caught Exception3: ', $e->getMessage(), "\n";	
 		}
 	}
