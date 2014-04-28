@@ -3,7 +3,7 @@
 $dbname = 'nbook';
 require_once('../dbsetup.php');
 
-//$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 class TamsException extends Exception {
     const E_GENERAL = 0;
@@ -11,6 +11,7 @@ class TamsException extends Exception {
     const E_SQL_EMPTYRESULT = 2;
     const E_SQL_MULTIRESULT = 3;
     const E_SQL_PREPARE = 4;
+    const E_SQL_FETCH = 5;
 
     public function __construct($code, $message = null) {
         switch ($code) {
@@ -28,6 +29,9 @@ class TamsException extends Exception {
             break;
         case self::E_SQL_PREPARE:
             $message = "SQL prepare error: $message";
+            break;
+        case self::E_SQL_FETCH:
+            $message = "SQL fetch error: $message";
             break;
         }
         parent::__construct($message, $code, null);
@@ -79,12 +83,17 @@ class Utils {
         }
         Utils::executeStatement($stmt,$arr);
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        return array_map($callback,$stmt->fetchAll());//$stmt->fetchAll());
+        $rows = $stmt->fetchAll();
+        if ($rows === false) {
+            $errorInfo = $db->errorInfo();
+            throw new TamsException(TamsException::E_SQL_FETCH, $errorInfo[2]);
+        }
+        return array_map($callback,$rows);//$stmt->fetchAll());
     }
 
     public static function getSingle($sql,$arr,$callback=null,$scalarResult=false) {
         global $db;
-        if ($callback == null) { $callback = self::I; }
+        if ($callback == null) { $callback = function($x) { return $x; }; }
         $stmt = $db->prepare($sql);
         if ($stmt === false) {
             $errorInfo = $db->errorInfo();
@@ -97,9 +106,15 @@ class Utils {
             throw new TamsException(TamsException::E_SQL_EMPTYRESULT);
         }
         $row = $stmt->fetch();
+       // if ($row === false) {
+       //     $errorInfo = $db->errorInfo();
+       //     throw new TamsException(TamsException::E_SQL_FETCH, $errorInfo[2]);
+       // }
         if ($scalarResult) {
             if (!isset($row[0])) {
-                throw new TamsException(TamsException::E_SQL_EMPTYRESULT);
+                return 0;
+                //throw new TamsException(TamsException::E_SQL_EMPTYRESULT);
+
             } else {
                 return $callback($row[0]);
             }
@@ -117,8 +132,6 @@ class Utils {
         }
         return Utils::executeStatement($stmt,$arr,$ignoreError);
     }
-
-    private static function I($x) { return $x; }
 
     public static function beginTransaction() {
         global $db;
