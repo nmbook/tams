@@ -105,21 +105,14 @@ class Utils {
         if ($result == null) {
             throw new TamsException(TamsException::E_SQL_EMPTYRESULT);
         }
-        $row = $stmt->fetch();
-       // if ($row === false) {
-       //     $errorInfo = $db->errorInfo();
-       //     throw new TamsException(TamsException::E_SQL_FETCH, $errorInfo[2]);
-       // }
         if ($scalarResult) {
-            if (!isset($row[0])) {
-                return 0;
-                //throw new TamsException(TamsException::E_SQL_EMPTYRESULT);
-
+            if (!isset($result[0])) {
+                throw new TamsException(TamsException::E_SQL_EMPTYRESULT);
             } else {
-                return $callback($row[0]);
+                return $callback($result[0]);
             }
         } else {
-            return $callback($row);
+            return $callback($result);
         }
     }
 
