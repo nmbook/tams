@@ -3,6 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+require_once('utils.php');
 require_once('instructor.php');
 require_once('course.php');
 require_once('session.php');
@@ -19,10 +20,21 @@ function handle_import($data, $as, $dt) {
                 'office_room'=>$instructor['office_room']
             );
         }, $instructors);
-        $c = count($instructors);
-        echo "<p>Inserting $c instructors...</p>\n";
-        Instructor::import($instructors);
-        echo "<p>Success!</p>\n";
+        $success = true;
+        try {
+            $c = count($instructors);
+            echo "<p>Inserting $c instructors...</p>\n";
+            Utils::beginTransaction();
+            Instructor::import($instructors);
+        } catch (TamsException $ex) {
+            $success = false;
+            echo "<p>Failure: $ex</p>\n";
+            Utils::cancelTransaction();
+        }
+        if ($success) {
+            Utils::commitTransaction();
+            echo "<p>Success!</p>\n";
+        }
     } elseif ($as == 'courses') {
         $courses = explode("\n", trim($data));
         $sessions = array();
@@ -49,19 +61,29 @@ function handle_import($data, $as, $dt) {
 			unset($course['sessions']);
 			return $course;
         },$courses);
-        $c = count($courses);
-        echo "<p>Inserting $c courses...</p>\n";
-        Course::import($courses);
+        $success = true;
+        try {
+            $c = count($courses);
+            echo "<p>Inserting $c courses...</p>\n";
+            Utils::beginTransaction();
+            Course::import($courses);
+            
+            $c = count($sessions);
+            echo "<p>Inserting $c course sessions...</p>\n";
+            Session::import($sessions);
 
-        $c = count($sessions);
-        echo "<p>Inserting $c course sessions...</p>\n";
-        Session::import($sessions);
-
-        $c = count($teaches);
-		echo "<p>Inserting $c teaches relations...</p>\n";
-        Instructor::importClasses($teaches);
-
-        echo "<p>Success!</p>\n";
+            $c = count($teaches);
+            echo "<p>Inserting $c teaches relations...</p>\n";
+            Instructor::importClasses($teaches);
+        } catch (TamsException $ex) {
+            $success = false;
+            echo "<p>Failure: $ex</p>\n";
+            Utils::cancelTransaction();
+        }
+        if ($success) {
+            Utils::commitTransaction();
+            echo "<p>Success!</p>\n";
+        }
     }
     //echo '<pre>'; print_r($courses);
 }
@@ -90,7 +112,8 @@ if ($tdata !== null) {
     //$target = 'temp_import_file';
     $fdata = file_get_contents($fref['tmp_name']);
     handle_import($fdata, $as, $dt);
-} else {
+}
+
 ?>
 <h3>Import Instructor List (as JSON)</h3>
 <form enctype="multipart/form-data" action="importer.php" method="post">
@@ -108,9 +131,5 @@ if ($tdata !== null) {
 <input type="file" name="fdata"></input><br />
 <input type="submit" value="Import"></input>
 </form>
-<?php
-}
-?>
-
 </body>
 </html>

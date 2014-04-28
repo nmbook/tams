@@ -4,6 +4,7 @@
 -- Remove tables in order to remove constraints correctly
 
 DROP TABLE IF EXISTS teaches;
+DROP TABLE IF EXISTS course_sessions;
 DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS workshops;
@@ -16,11 +17,12 @@ DROP TABLE IF EXISTS instructors;
 
 CREATE TABLE courses (
     crn INTEGER NOT NULL PRIMARY KEY, -- natural key
-    year SMALLINT(4) NOT NULL,
+    year YEAR NOT NULL,
     semester ENUM('spring','fall','summer','winter') NOT NULL,
     department CHAR(3) NOT NULL,
     course_number CHAR(4) NOT NULL,
-    name VARCHAR(28) NOT NULL,
+    name VARCHAR(128) NOT NULL,
+    description TEXT NULL,
     parent_crn INTEGER NULL,
 	position_count SMALLINT UNSIGNED NOT NULL,
 

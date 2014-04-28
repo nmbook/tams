@@ -31,7 +31,7 @@ class TA {
         if (array_key_exists('email',$row))
             $this->email = $row['email'];
         else
-            $this->email = $row['name'] . "@u.rochester.edu";
+            $this->email = $row['netid'] . "@u.rochester.edu";
         $this->applications = NULL;
     }
 
@@ -41,10 +41,13 @@ class TA {
     public function getClassYear() {return intval($this->class_year);}
 
     public function getApplications() {
-        if ($this->applications == NULL)
-            $this->applications = Utils::getMapping("SELECT * FROM applications WHERE netid = :netid",
+        if ($this->applications == NULL) {
+            $this->applications = Utils::getMapping(
+                'SELECT * FROM applications
+                 WHERE netid = :netid',
             array(':netid' => $this->netid),
             function ($x) { return Application($x); });
+        }
         return $this->applications;
     }
 
@@ -54,51 +57,51 @@ class TA {
 
 	public function applyCourse($crn,$forCredit) {
 		$dt = new DateTime();
-		Utils::getVoid('INSERT INTO applications (crn,netid,time_signup,time_response,state,for_credit) VALUES (:crn,:netid,:signup,:response,:state,:credit)',
+        Utils::getVoid(
+            'INSERT INTO applications
+             (crn,netid,time_signup,time_response,state,for_credit)
+             VALUES
+             (:crn,:netid,:signup,:response,:state,:credit)',
 			array(':coursecrn' => $crn,
 			':netid' => $this->netid,
 			':signup' => $dt->format('H:i:s'),
 			':response' => NULL,
 			':state' => 'pending',
 			':credit' => $forCredit));
-		update();
+        update();
 	}
 
     static public function getByNetID($netid) {
-        return Utils::getSingle('SELECT netid,name,email,class_year FROM tas WHERE netid=:netid',
+        return Utils::getSingle(
+            'SELECT netid,name,email,class_year FROM tas
+             WHERE netid=:netid',
         	array(':netid' => $netid),
         	function ($x) { return TA($x); });
     }
 
     static public function getByRange($start,$len) {
-        return Utils::getMapping('SELECT netid,name,email,class_year FROM tas LIMIT :start, :len',
+        return Utils::getMapping(
+            'SELECT netid,name,email,class_year FROM tas
+             LIMIT :start, :len',
             array(),
             function ($x) { return new TA($x); },
             $start,$len);
     }
 
     static public function getCount() {
-        global $db;
-        $stmt = $db->prepare('SELECT COUNT(*) FROM tas');
-        if (!$stmt->execute(array())) {
-            var_dump( $stmt->errorInfo());
-            exit;
-        }
-        $stmt->setFetchMode(PDO::FETCH_NUM);
-        $result = $stmt->fetch();
-        return $result[0] + 0;
+        $count = Utils::getSingle('SELECT COUNT(*) FROM tas',array(),null,true);
+        return intval($count);
     }
 
 	static public function getByclass($class) {
-
-		return Utils::getMapping('SELECT t.netid,t.name,email,class_year FROM courses c
-                        INNER JOIN applications a ON c.crn = a.crn
-                        INNER JOIN tas t ON t.netid = a.tanetid
-                        WHERE a.state = \'approved\' AND c.year = 2014 AND c.semester = \'spring\'
-                        AND c.department = \'CSC\'AND course_number = :class;',
+        return Utils::getMapping(
+            'SELECT t.netid,t.name,email,class_year FROM courses c
+             INNER JOIN applications a ON c.crn = a.crn
+             INNER JOIN tas t ON t.netid = a.tanetid
+             WHERE a.state = \'approved\' AND c.year = 2014 AND c.semester = \'spring\'
+             AND c.department = \'CSC\'AND course_number = :class;',
             array(':class' => $class),
             function ($x) { return new TA($x); });
     }
-
 }
 

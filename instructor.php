@@ -45,22 +45,24 @@ class Instructor
     public function getOffice() {return $this->office;}
 
     public function getClasses() {
-        if ($this->classes == NULL)
+        if ($this->classes == NULL) {
             $this->classes = Instructor::getMapping("SELECT * FROM Teaches INNER JOIN Courses
             ON Teaches.course = Courses.id
             WHERE
             Teaches.instructor = :netid",
             array(':netid' => $this->netid),
-            function ($x) { return Course($x); });
+            function ($x) { return new Course($x); });
+        }
         return $this->classes;
     }
 
     static public function getByNetID($netid) {
-        global $db;
-        $stmt = $db->prepare('SELECT * FROM Instructors WHERE netid=:netid;');
-        $stmt->execute(array(':netid' => $netid));
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        return new Instructor($stmt->fetch());
+        $row = Utils::getSingle(
+            'SELECT * FROM instructors
+             WHERE netid=:netid',
+            array(':netid' => $netid),
+            function ($x) { return new Instructor($x); });
+        return $row;
     }
 
 	public function assignCourse($crn) {
@@ -70,16 +72,9 @@ class Instructor
 		update();
 	}
 
-	static public function getCount() {
-        global $db;
-        $stmt = $db->prepare('SELECT COUNT(*) FROM Instructors');
-        if (!$stmt->execute(array())) {
-            var_dump( $stmt->errorInfo());
-            exit;
-        }
-        $stmt->setFetchMode(PDO::FETCH_NUM);
-        $result = $stmt->fetch();
-        return $result[0] + 0;
+    static public function getCount() {
+        $count = Utils::getSingle('SELECT COUNT(*) FROM instructors',array(),null,true);
+        return intval($count);
     }
 
 	static public function import($arr) {
