@@ -42,7 +42,7 @@
 			}
 		}
 		try {
-			$ta->apply($crn,$for_credit);
+			$ta->applyCourse($crn,$for_credit);
 		}
 		catch (Exception $e) {
 			echo 'Caught Exception3: ', $e->getMessage(), "\n";	

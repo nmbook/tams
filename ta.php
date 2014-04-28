@@ -67,7 +67,7 @@ class TA {
 			':signup' => $dt->format('H:i:s'),
 			':response' => NULL,
 			':state' => 'pending',
-			':credit' => $forCredit),true);
+			':credit' => $forCredit));
         update();
 	}
 
@@ -76,7 +76,7 @@ class TA {
             'SELECT netid,name,email,class_year FROM tas
              WHERE netid=:netid',
         	array(':netid' => $netid),
-        	function ($x) { return TA($x); },true);
+        	function ($x) { return TA($x); });
     }
 
     static public function getByRange($start,$len) {
