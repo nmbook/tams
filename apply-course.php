@@ -22,18 +22,23 @@
 <?php
 	}
 	else {
+		echo "break 1<br>\n";
 		$netid = $_GET['netid'];
 		$for_credit = $_GET['for_credit'];
+		echo "break 2<br>\n";
 		try {
 			$ta = TA::getByNetID($netid);
 		}
 		catch (Exception $e) {
 			echo 'Caught Exception1: ', $e->getMessage(), "\n";
 		}
+		echo "break 3<br>\n";
 		if (isset($_GET['crn'])) {
+			echo "break 4<br>\n";
 			$crn = $_GET['crn'];
 		}
 		else {
+			echo "break 5<br>\n";
 			try {
 				$crn = Course::getCoursesByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
 			}
@@ -41,12 +46,14 @@
 				echo 'Caught Exception2: ', $e->getMessage(), "\n";
 			}
 		}
+		echo "break 6<br>\n";
 		try {
 			$ta->applyCourse($crn,$for_credit);
 		}
 		catch (Exception $e) {
 			echo 'Caught Exception3: ', $e->getMessage(), "\n";	
 		}
+		echo "break 7<br>\n";
 	}
 ?>
 </body>
