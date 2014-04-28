@@ -92,9 +92,12 @@ function handle_import($data, $as, $dt) {
 <!DOCTYPE html>
 <html>
 <head>
-<title>Data Importer Page</title>
+<title>Data Importer Page - TA Management System</title>
 </head>
 <body>
+
+<h1>TA Management System on Betaweb</h1>
+<h2>Data Import Page</h2>
 
 <?php
 // "as", the table data we are importing, currently hardcoded as "courses"
@@ -131,5 +134,6 @@ if ($tdata !== null) {
 <input type="file" name="fdata"></input><br />
 <input type="submit" value="Import"></input>
 </form>
+<a href=".">&lt-- Back</a>
 </body>
 </html>
