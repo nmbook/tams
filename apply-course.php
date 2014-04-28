@@ -29,9 +29,19 @@
 			$crn = $_GET['crn'];
 		}
 		else {
-			$crn = Course::getCoursesByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
+			try {
+				$crn = Course::getCoursesByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
+			}
+			catch (TamsException $e) {
+				echo 'Caught Exception1: ', $e->getMessage(), "\n";
+			}
 		}
-		$ta->apply($crn,$for_credit);
+		try {
+			$ta->apply($crn,$for_credit);
+		}
+		catch (TamsException $e) {
+			echo 'Caught Exception2: ', $e->getMessage(), "\n";	
+		}
 	}
 ?>
 </body>
