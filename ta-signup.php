@@ -3,7 +3,7 @@
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>TA Signup</title></head>
+<head><title>TA Signup - TA Management System</title></head>
 <style>
 div.content {
     width: 860px;
@@ -49,6 +49,7 @@ label + input {
 <input type="submit" value="Sign Up"></input>
 </form>
 </div>
+<a href=".">&lt-- Back</a>
 </body>
 </html>
 

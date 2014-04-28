@@ -42,7 +42,7 @@ function create_account($netid, $name, $email, $type, $year = null, $office = nu
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>TA Signup</title></head>
+<head><title>TA Account Create - TA Management System</title></head>
 <style>
 div.content {
     width: 860px;
@@ -124,6 +124,7 @@ for ($yri = $yr - 2; $yri < $yr + 6; $yri++) {
 }
 ?>
 </div>
+<a href=".">&lt-- Back</a>
 </body>
 </html>
 

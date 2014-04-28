@@ -6,10 +6,10 @@ $class = $_GET["course"];
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>TA Listed for a 173 (BETAWEB)</title></head>
+<head><title>TA Lister by Course - TA Management System</title></head>
 <body>
-<h1>TuesdayNight on Betaweb</h1>
-<h2>TA Lister</h2>
+<h1>TA Management System on Betaweb</h1>
+<h2>TA Lister by Course</h2>
 <p> Would you like to look up the TAs for another CSC course?</p>
 <form action="ta-list-for-course.php" method="get">
 Course: <input type="text" name="course"  placeholder="<?php echo $class?>" ><br>
@@ -26,8 +26,7 @@ $tas = TA::getByclass($class);
     echo '</tbody></table>';
 
 ?>
-
-
+<a href=".">&lt;-- Back</a>
 </body>
 </html>
 

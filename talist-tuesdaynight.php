@@ -28,9 +28,9 @@ function echo_paginate() {
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>TA Lister - TuesdayNight Project (BETAWEB)</title></head>
+<head><title>TA Lister - TA Management System</title></head>
 <body>
-<h1>TuesdayNight on Betaweb</h1>
+<h1>TA Management System on Betaweb</h1>
 <h2>TA Lister</h2>
 
 <?php 
@@ -79,7 +79,7 @@ if (count($tas) == 0) {
 //TA::getByRange($start, 20);
 
 ?>
-
+<a href=".">&lt;-- Back</a>
 </body>
 </html>
 
