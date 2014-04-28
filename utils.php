@@ -1,54 +1,139 @@
 <?php
+
+$dbname = 'nbook';
 require_once('../dbsetup.php');
-class Utils {
-	private static function debug($stmt,$arr) {
-		if (empty($arr)) {
-			$guard = $stmt->execute();	
-		}
-		else {
-			$guard = $stmt->execute($arr);
-		}
-		if (!$guard) {
-			print_r($stmt->errorInfo());
-			echo "\n";
-			print_r($arr);
-			echo "\n";
-			exit;	
-		}
-	}
 
-	public static function prepareArray($row) {
-		$row2 = array();
-		foreach ($row as $key => $value) {
-			$row2[':' . $key] = $value;
-		}
-		return $row2;
-	}
+//$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-	public static function getMapping($sql,$arr,$callback,$limit_start = null,$limit_len = null) {
-    	    global $db;
-    	    $stmt = $db->prepare($sql);
-    	    if ($limit_start !== null && $limit_len !== null) {
-    	        $stmt->bindParam(':start',intval($limit_start),PDO::PARAM_INT);
-    	        $stmt->bindParam(':len',intval($limit_len),PDO::PARAM_INT);
-    	    }
-    	    Utils::debug($stmt,$arr);
-    	    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    	    return array_map($callback,$stmt->fetchAll());//$stmt->fetchAll());
+class TamsException extends Exception {
+    const E_GENERAL = 0;
+    const E_SQL_ENGINE = 1;
+    const E_SQL_EMPTYRESULT = 2;
+    const E_SQL_MULTIRESULT = 3;
+    const E_SQL_PREPARE = 4;
+
+    public function __construct($code, $message = null) {
+        switch ($code) {
+        case self::E_GENERAL:
+            $message = 'Generic error';
+            break;
+        case self::E_SQL_ENGINE:
+            $message = "SQL engine error: $message";
+            break;
+        case self::E_SQL_EMPTYRESULT:
+            $message = 'Query returned empty result when one was expected';
+            break;
+        case self::E_SQL_MULTIRESULT:
+            $message = 'Query returned multiple results when only one was expected';
+            break;
+        case self::E_SQL_PREPARE:
+            $message = "SQL prepare error: $message";
+            break;
+        }
+        parent::__construct($message, $code, null);
     }
 
-	public static function getSingle($sql,$arr,$callback) {
-		global $db;
-		$stmt = $db->prepare($sql);
-		Utils::debug($stmt,$arr);
-		$stmt->setFetchMode(PDO::FETCH_ASSOC);
-		return $callback($stmt->fetch());
-	}
-
-	public static function getVoid($sql,$arr,$ignoreError=false) {
-		global $db;
-		$stmt = $db->prepare($sql);
-		if (!$ignoreError) Utils::debug($stmt,$arr);
-	}
+    public function __toString() {
+        return $this->getMessage().
+            ' (on line <b>'.$this->getLine().'</b> of <b>'.$this->getFile().'</b>)';
+    }
 }
-?>
+
+class Utils {
+    private static function executeStatement($stmt,$arr,$ignoreError=false) {
+        if (empty($arr)) {
+            $guard = $stmt->execute();	
+        } else {
+            $guard = $stmt->execute($arr);
+        }
+        if (!$guard) {
+            if ($ignoreError) {
+                return false;
+            } else {
+                $errorInfo = $stmt->errorInfo();
+                throw new TamsException(TamsException::E_SQL_ENGINE, $errorInfo[2]);
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public static function prepareArray($row) {
+        $row2 = array();
+        foreach ($row as $key => $value) {
+            $row2[':' . $key] = $value;
+        }
+        return $row2;
+    }
+
+    public static function getMapping($sql,$arr,$callback,$limit_start = null,$limit_len = null) {
+        global $db;
+        $stmt = $db->prepare($sql);
+        if ($stmt === false) {
+            $errorInfo = $db->errorInfo();
+            throw new TamsException(TamsException::E_SQL_PREPARE, $errorInfo[2]);
+        }
+        if ($limit_start !== null && $limit_len !== null) {
+            $stmt->bindParam(':start',intval($limit_start),PDO::PARAM_INT);
+            $stmt->bindParam(':len',intval($limit_len),PDO::PARAM_INT);
+        }
+        Utils::executeStatement($stmt,$arr);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        return array_map($callback,$stmt->fetchAll());//$stmt->fetchAll());
+    }
+
+    public static function getSingle($sql,$arr,$callback=null,$scalarResult=false) {
+        global $db;
+        if ($callback == null) { $callback = self::I; }
+        $stmt = $db->prepare($sql);
+        if ($stmt === false) {
+            $errorInfo = $db->errorInfo();
+            throw new TamsException(TamsException::E_SQL_PREPARE, $errorInfo[2]);
+        }
+        Utils::executeStatement($stmt,$arr);
+        $stmt->setFetchMode($scalarResult ? PDO::FETCH_NUM : PDO::FETCH_ASSOC);
+        $result = $stmt->fetch();
+        if ($result == null) {
+            throw new TamsException(TamsException::E_SQL_EMPTYRESULT);
+        }
+        $row = $stmt->fetch();
+        if ($scalarResult) {
+            if (!isset($row[0])) {
+                throw new TamsException(TamsException::E_SQL_EMPTYRESULT);
+            } else {
+                return $callback($row[0]);
+            }
+        } else {
+            return $callback($row);
+        }
+    }
+
+    public static function getVoid($sql,$arr,$ignoreError=false) {
+        global $db;
+        $stmt = $db->prepare($sql);
+        if ($stmt === false) {
+            $errorInfo = $db->errorInfo();
+            throw new TamsException(TamsException::E_SQL_PREPARE, $errorInfo[2]);
+        }
+        return Utils::executeStatement($stmt,$arr,$ignoreError);
+    }
+
+    private static function I($x) { return $x; }
+
+    public static function beginTransaction() {
+        global $db;
+        $db->beginTransaction();
+    }
+
+    public static function cancelTransaction() {
+        global $db;
+        $db->rollBack();
+    }
+
+    public static function commitTransaction() {
+        global $db;
+        $db->commit();
+    }
+}
+
+
