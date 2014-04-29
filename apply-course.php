@@ -40,7 +40,7 @@
 		else {
 			echo "break 5<br>\n";
 			try {
-				$crn = Course::getCoursesByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
+				$crn = Course::getCourseByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
 			}
 			catch (Exception $e) {
 				echo 'Caught Exception2: ', $e->getMessage(), "\n";
