@@ -39,7 +39,7 @@ class Course {
 				ON teaches.instructor_id=instructors.id 
 				WHERE teaches.crn=:crn',
 				array(':crn' => $this->crn),
-				function ($x) { return Instructor($x); });
+				function ($x) { return new Instructor($x); });
 		}
 		return $this->instructors;
 	}
@@ -48,7 +48,7 @@ class Course {
 		if ($this->applications == NULL) {
 			$this->applications = Utils::getMapping('SELECT * FROM applications WHERE crn=:crn',
 				array(':crn' => $this->crn),
-				function ($x) { return Application($x); });
+				function ($x) { return new Application($x); });
 		}
 		return $this->applications;
 	}
@@ -57,7 +57,7 @@ class Course {
         if ($this->pending == NULL) {
             $this->pending = Utils::getMapping('SELECT * FROM applications WHERE crn=:crn AND state=\'pending\'',
                 array(':crn' => $this->crn),
-                function ($x) { return Application($x); });
+                function ($x) { return new Application($x); });
         }
         return $this->pending;
     }
@@ -66,7 +66,7 @@ class Course {
         if ($this->approved == NULL) {
             $this->approved = Utils::getMapping('SELECT * FROM applications WHERE crn=:crn AND state=\'approved\'',
                 array(':crn' => $this->crn),
-                function ($x) { return Application($x); });
+                function ($x) { return new Application($x); });
         }
         return $this->approved;
     }
@@ -75,7 +75,7 @@ class Course {
         if ($this->denied == NULL) {
             $this->denied = Utils::getMapping('SELECT * FROM applications WHERE crn=:crn AND state=\'denied\'',
                 array(':crn' => $this->crn),
-                function ($x) { return Application($x); });
+                function ($x) { return new Application($x); });
         }
         return $this->denied;
     }
@@ -95,14 +95,14 @@ class Course {
 	static public function getCourseByCrn($crn) {
 		return Utils::getSingle('SELECT * FROM courses WHERE crn=:crn',
 			array(':crn' => $crn),
-			function ($x) { return Course($x);});
+			function ($x) { return new Course($x);});
 	}
 
 	static public function getCourseByName($dept,$number,$year,$semester) {
 		return Utils::getSingle(
 			'SELECT * FROM  courses WHERE department=:dept AND course_number=:number AND year=:year AND semester=:semester',
 			array(':dept' => $dept, ':number' => $number, ':year' => $year, 'semester' => $semester),
-			function ($x) { return Course($x); });
+			function ($x) { return new Course($x); });
 	}
 
 	static public function import($arr) {
