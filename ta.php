@@ -53,7 +53,7 @@ class TA {
 
 	public function update() {
 		$this->applications = NULL;
-	}
+    }
 
 	public function applyCourse($crn,$forCredit) {
 		$dt = new DateTime();
@@ -70,6 +70,18 @@ class TA {
 			':credit' => $forCredit));
         update();
 	}
+
+    public static function create($netid, $name, $email, $class_year) {
+        Utils::getVoid(
+            'INSERT INTO tas
+             (netid,name,email,class_year)
+             VALUES
+             (:netid,:name,:email,:year)',
+			array('netid' => $netid,
+			':name' => $name,
+			':email' => $email,
+			':year' => $class_year));
+    }
 
     static public function getByNetID($netid) {
         return Utils::getSingle(

@@ -36,7 +36,13 @@ function is_valid_year($year) {
 }
 
 function create_account($netid, $name, $email, $type, $year = null, $office = null) {
-    
+    try {
+        TA::create($netid, $name, $email, $year);
+    } catch (TamsException $ex) {
+        echo "<p>Failure: $ex</p>\n";
+        return;
+    }
+    echo "<p>You have created an account, $name</p>";
 }
 
 ?>
