@@ -111,8 +111,8 @@ class Course {
 			foreach ($row as $key => $val) {
 				$row2[':' . $key] = $val;
 			}
-			Utils::getVoid('INSERT INTO courses (crn,year,semester,department,course_number,name)
-				VALUES (:crn,:year,:semester,:department,:course_number,:name)',
+			Utils::getVoid('INSERT INTO courses (crn,year,semester,department,course_number,name,description)
+				VALUES (:crn,:year,:semester,:department,:course_number,:name,:description)',
 				$row2);
 		}
 	}
