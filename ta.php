@@ -46,7 +46,7 @@ class TA {
                 'SELECT * FROM applications
                  WHERE netid = :netid',
             array(':netid' => $this->netid),
-            function ($x) { return Application($x); });
+            function ($x) { return new Application($x); });
         }
         return $this->applications;
     }
@@ -88,7 +88,7 @@ class TA {
             'SELECT netid,name,email,class_year FROM tas
              WHERE netid=:netid',
         	array(':netid' => $netid),
-        	function ($x) { return TA($x); });
+        	function ($x) { return new TA($x); });
     }
 
     static public function getByRange($start,$len) {
