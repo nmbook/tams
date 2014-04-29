@@ -62,7 +62,7 @@ class TA {
              (crn,netid,time_signup,time_response,state,for_credit)
              VALUES
              (:crn,:netid,:signup,:response,:state,:credit)',
-			array(':coursecrn' => $crn,
+			array(':crn' => $crn,
 			':netid' => $this->netid,
 			':signup' => $dt->format('H:i:s'),
 			':response' => NULL,
