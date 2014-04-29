@@ -68,7 +68,7 @@ class TA {
 			':response' => NULL,
 			':state' => 'pending',
 			':credit' => $forCredit));
-        update();
+        $this->update();
 	}
 
     public static function create($netid, $name, $email, $class_year) {

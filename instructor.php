@@ -69,7 +69,7 @@ class Instructor
 		Utils::getVoid('Update teaches SET netid = :netid WHERE crn = :crn',
 			array(':netid' => $this-> netid,
 			':crn' => $crn));
-		update();
+		$this->update();
 	}
 
     static public function getCount() {
