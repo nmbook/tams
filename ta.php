@@ -55,17 +55,13 @@ class TA {
     }
 
 	public function applyCourse($crn,$forCredit) {
-		$dt = new DateTime();
         Utils::getVoid(
-            'INSERT INTO applications
+            "INSERT INTO applications
              (crn,netid,time_signup,time_response,state,for_credit)
              VALUES
-             (:crn,:netid,:signup,:response,:state,:credit)',
+             (:crn,:netid,NOW(),NULL,'pending',:credit)",
 			array(':crn' => $crn,
 			':netid' => $this->netid,
-			':signup' => $dt->format('H:i:s'),
-			':response' => NULL,
-			':state' => 'pending',
 			':credit' => $forCredit));
         $this->update();
 	}

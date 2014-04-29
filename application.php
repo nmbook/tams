@@ -26,9 +26,8 @@ class Application {
 	public function getTimeResponse() { return $this->time_response; }
 
 	public function setState($newState) {
-		$dt = new DateTime();
-		Utils::getVoid('UPDATE applications SET state=:state,time_response=:time_response WHERE crn=:crn AND netid=:netid',
-			array(':state' => $newState, ':time_response' => $dt->format('H:i:s'), ':crn' => $this->crn, ':netid' => $this->netid));
+		Utils::getVoid('UPDATE applications SET state=:state,time_response=NOW() WHERE crn=:crn AND netid=:netid',
+			array(':state' => $newState, ':crn' => $this->crn, ':netid' => $this->netid));
 		$this->state = $newState;
 	}
 

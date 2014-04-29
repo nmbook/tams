@@ -27,38 +27,41 @@ if (!isset($_GET['netid']) || !isset($_GET['for_credit']) ||
     </form>
 <?php
 } else {
-    echo "break 1<br>\n";
     $netid = $_GET['netid'];
     $for_credit = $_GET['for_credit'];
-    echo "break 2<br>\n";
+	$guard = false;
     try {
         $ta = TA::getByNetID($netid);
     }
     catch (Exception $e) {
-        echo 'Caught Exception1: ', $e->getMessage(), "\n";
+        echo "<p>ERROR: a TA with netid $netid is not in our database</p>\n";
+		$guard = true;
     }
-    echo "break 3<br>\n";
     if (isset($_GET['crn'])) {
-        echo "break 4<br>\n";
         $crn = $_GET['crn'];
     }
     else {
-        echo "break 5<br>\n";
+		$dept = $_GET['dept'];
+		$number= $_GET['number'];
+		$year = $_GET['year'];
+		$semester = $_GET['semester'];
         try {
-            $crn = Course::getCourseByName($_GET['dept'],$_GET['number'],$_GET['year'],$_GET['semester'])->getCrn();	
+            $crn = Course::getCourseByName($dept,$number,$year,$semester)->getCrn();	
         }
         catch (Exception $e) {
-            echo 'Caught Exception2: ', $e->getMessage(), "\n";
+			echo "<p>ERROR: there is no $dept $number class in $semester $year</p>\n";
+			$guard = true;
         }
     }
-    echo "break 6<br>\n";
-    try {
-        $ta->applyCourse($crn,$for_credit);
-    }
-    catch (Exception $e) {
-        echo 'Caught Exception3: ', $e->getMessage(), "\n";	
-    }
-    echo "break 7<br>\n";
+	if (!$guard) {
+		try {
+        	$ta->applyCourse($crn,$for_credit);
+			echo "<p>Course application sucessful!</p>\n";
+		}
+		catch (Exception $e) {
+			echo "<p>ERROR: course application failed. Perhaps you already applied for this course?</p>\n";	
+		}
+	}
 }
 ?>
 <a href=".">&lt-- Back</a>
