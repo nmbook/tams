@@ -12,7 +12,6 @@
  * int $ta->getClassYear()
  */
 
-$dbname = 'nbook';
 require_once('../dbsetup.php');
 require_once('application.php');
 require_once('utils.php');

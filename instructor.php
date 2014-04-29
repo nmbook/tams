@@ -9,7 +9,6 @@
  * int $ins->getOffice()
  */
 
-$dbname = 'nbook';
 require_once('../dbsetup.php');
 
 class Instructor

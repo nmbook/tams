@@ -1,6 +1,5 @@
 <?php
 
-$dbname = 'nbook';
 require_once('../dbsetup.php');
 
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
