@@ -22,6 +22,7 @@
 <?php
 	}
 	else {
+		try {
 		echo "break 1<br>\n";
 		$netid = $_GET['netid'];
 		$for_credit = $_GET['for_credit'];
@@ -54,6 +55,10 @@
 			echo 'Caught Exception3: ', $e->getMessage(), "\n";	
 		}
 		echo "break 7<br>\n";
+		}
+		catch (Exception $e) {
+			echo "ERROR!\n";	
+		}
 	}
 ?>
 </body>
