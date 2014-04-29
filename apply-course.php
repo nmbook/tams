@@ -22,12 +22,11 @@
 <?php
 	}
 	else {
-		try {
 		echo "break 1<br>\n";
 		$netid = $_GET['netid'];
 		$for_credit = $_GET['for_credit'];
 		echo "break 2<br>\n";
-		try {
+		/*try {
 			$ta = TA::getByNetID($netid);
 		}
 		catch (Exception $e) {
@@ -53,12 +52,8 @@
 		}
 		catch (Exception $e) {
 			echo 'Caught Exception3: ', $e->getMessage(), "\n";	
-		}
+		}*/
 		echo "break 7<br>\n";
-		}
-		catch (Exception $e) {
-			echo "ERROR!\n";	
-		}
 	}
 ?>
 </body>
