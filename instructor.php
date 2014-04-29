@@ -46,10 +46,10 @@ class Instructor
 
     public function getClasses() {
         if ($this->classes == NULL) {
-            $this->classes = Instructor::getMapping("SELECT * FROM Teaches INNER JOIN Courses
-            ON Teaches.course = Courses.id
+            $this->classes = Instructor::getMapping("SELECT * FROM teaches INNER JOIN courses
+            ON teaches.course = courses.id
             WHERE
-            Teaches.instructor = :netid",
+            teaches.instructor = :netid",
             array(':netid' => $this->netid),
             function ($x) { return new Course($x); });
         }
@@ -66,7 +66,7 @@ class Instructor
     }
 
 	public function assignCourse($crn) {
-		Utils::getVoid('Update Teaches SET instructor = :netid WHERE crn = :crn',
+		Utils::getVoid('Update teaches SET netid = :netid WHERE crn = :crn',
 			array(':netid' => $this-> netid,
 			':crn' => $crn));
 		update();
