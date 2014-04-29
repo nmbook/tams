@@ -19,7 +19,7 @@ class Course {
 		$this->year = $row['year'];
 		$this->semester = $row['semester'];
 		$this->department = $row['department'];
-		$this->positions = $this['position_count'];
+		$this->positions = $row['position_count'];
 		$this->instructors = NULL;
 		$this->applications = NULL;
 		$this->pending = NULL;
