@@ -9,7 +9,7 @@
     if (!isset($_GET['netid']) || !isset($_GET['crn'])) {
 ?>
 <p> Would you like to look up the courses for another proffesor?</p>
-<form action="set-courses.php" method="get">
+<form action="set-professor.php" method="get">
 Netid: <input type="text" name="netid"  placeholder="<?php echo $netid?>" ><br>
 CRN: <input type= "text" name= "crn" placeholder="<?php echo $crn?>"><br>
 
