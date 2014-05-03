@@ -7,6 +7,7 @@ class Course {
 	private $year;
 	private $semester;
 	private $department;
+	private $description;
 	private $positions;
 	private $instructors;
 	private $applications;
@@ -20,6 +21,7 @@ class Course {
 		$this->semester = $row['semester'];
 		$this->department = $row['department'];
 		$this->positions = $row['position_count'];
+		$this->description = $row['description'];
 		$this->instructors = NULL;
 		$this->applications = NULL;
 		$this->pending = NULL;
@@ -32,6 +34,7 @@ class Course {
 	public function getSemester() { return $this->semester; }
 	public function getDepartment() { return $this->department; }
 	public function getPositionCount() { return $this->positions; }
+	public function getDescription() { return $this->description; }
 
 	public function getInstructors() {
 		if ($this->instructors == NULL) {
