@@ -1,6 +1,7 @@
 <?php
 require_once('../dbsetup.php');
 require_once('utils.php');
+require_once('session.php');
 
 class Course {
 	private $crn;
@@ -10,6 +11,7 @@ class Course {
 	private $description;
 	private $positions;
 	private $instructors;
+	private $sessions;
 	private $applications;
 	private $pending;
 	private $approved;
@@ -23,6 +25,7 @@ class Course {
 		$this->positions = $row['position_count'];
 		$this->description = $row['description'];
 		$this->instructors = NULL;
+		$this->sessions = NULL;
 		$this->applications = NULL;
 		$this->pending = NULL;
 		$this->approved = NULL;
@@ -45,6 +48,15 @@ class Course {
 				function ($x) { return new Instructor($x); });
 		}
 		return $this->instructors;
+	}
+
+	public function getSessions() {
+		if ($this->sessions == NULL) {
+			$this->sessions = Utils::getMapping('SELECT * FROM sessions WHERE crn=:crn',
+				array(':crn' => $this->crn),
+				function ($x) { return new Session($x); });
+		}
+		return $this->sessions;
 	}
 
 	public function getAllApplications() {
@@ -83,7 +95,9 @@ class Course {
         return $this->denied;
     }
 
-	public function update() {	
+	public function update() {
+		$this->instructors = NULL;
+		$this->sessions = NULL;
 		$this->applications = NULL;
 		$this->pending = NULL;
 		$this->approved = NULL;
