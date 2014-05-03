@@ -10,7 +10,7 @@
  */
 
 require_once('../dbsetup.php');
-
+require_once('utils.php');
 class Instructor
 {
     private $netid;
@@ -18,14 +18,6 @@ class Instructor
     private $email;
     private $office;
     private $classes;
-
-    static private function getMapping($sql,$arr,$callback) {
-        global $db;
-        $stmt = $db->prepare($sql);
-        $stmt->execute($arr);
-        $stmt->setFetchMode(PDO::FETCH_NUM);
-        return array_map($callback,$stmt);
-    }
 
     public function __construct($row) {
         $this->netid = $row['netid'];
