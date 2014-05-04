@@ -8,6 +8,8 @@ class Course {
 	private $year;
 	private $semester;
 	private $department;
+	private $number;
+	private $name;
 	private $description;
 	private $positions;
 	private $instructors;
@@ -22,6 +24,8 @@ class Course {
 		$this->year = $row['year'];
 		$this->semester = $row['semester'];
 		$this->department = $row['department'];
+		$this->number = $row['course_number'];
+		$this->name = $row['name'];
 		$this->positions = $row['position_count'];
 		$this->description = $row['description'];
 		$this->instructors = NULL;
@@ -36,6 +40,8 @@ class Course {
 	public function getYear() { return $this->year; }
 	public function getSemester() { return $this->semester; }
 	public function getDepartment() { return $this->department; }
+	public function getNumber() { return $this->number; }
+	public function getName() { return $this->name; }
 	public function getPositionCount() { return $this->positions; }
 	public function getDescription() { return $this->description; }
 
