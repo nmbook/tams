@@ -39,15 +39,19 @@ class TA {
     public function getEmail() {return $this->email;}
     public function getClassYear() {return intval($this->class_year);}
 
-    public function getApplications() {
+    public function getApplication($crn) {
         if ($this->applications == NULL) {
-            $this->applications = Utils::getMapping(
+            $tmp = Utils::getMapping(
                 'SELECT * FROM applications
                  WHERE netid = :netid',
             array(':netid' => $this->netid),
             function ($x) { return new Application($x); });
+			$this->applications = array();
+			foreach ($tmp as $app) {
+				$this->applications[$app->getCrn()] = $app;	
+			}
         }
-        return $this->applications;
+        return $this->applications[$crn];
     }
 
 	public function update() {

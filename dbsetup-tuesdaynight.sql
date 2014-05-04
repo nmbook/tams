@@ -25,7 +25,7 @@ CREATE TABLE courses (
     description TEXT NULL,
     parent_crn INTEGER NULL,
 	position_count SMALLINT UNSIGNED NOT NULL,
-
+	
 	FOREIGN KEY (parent_crn) REFERENCES courses(crn)
 ) ENGINE=InnoDB;
 
@@ -72,8 +72,8 @@ CREATE TABLE applications (
     state ENUM('pending','approved','denied') NOT NULL,
     time_signup DATETIME NOT NULL,
     time_response DATETIME NULL,
-
-    FOREIGN KEY (crn) REFERENCES courses (crn),
+	
+	FOREIGN KEY (crn) REFERENCES courses (crn),
     FOREIGN KEY (netid) REFERENCES tas (netid),
     UNIQUE (crn, netid) -- natural key
 ) ENGINE=InnoDB;
@@ -89,4 +89,14 @@ CREATE TABLE teaches (
     UNIQUE (crn, netid) -- natural key
 ) ENGINE=InnoDB;
 -- CHECK (user_id IN (SELECT id FROM users WHERE role = 'faculty')), -- only faculty can teach courses
+
+
+ALTER TABLE courses
+ADD CONSTRAINT CK_applications_c
+CHECK ((SELECT COUNT(*) FROM applications a where a.crn=crn and a.state='approved') <= position_count);
+
+ALTER TABLE applications
+ADD CONSTRAINT CK_applications_a
+CHECK ((SELECT COUNT(*) FROM applications a WHERE a.crn=crn and a.state='approved') <= (SELECT position_count FROM courses c WHERE c.crn=crn));
+
 
