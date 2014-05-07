@@ -1,6 +1,7 @@
 <?php
 require_once('../dbsetup.php');
 require_once('utils.php');
+require_once('course.php');
 
 class Application {
 	private $crn;
@@ -27,6 +28,12 @@ class Application {
 	public function getTimeResponse() { return $this->time_response; }
 
 	public function setState($newState) {
+		if ($newState == 'approved') {
+			$course = Course::getCourseByCrn($this->crn);
+			if (count($course->getApprovedApplications()) >= $course->getPositions()) {
+				throw new TamsException(TamsException::E_GENERAL);
+			}
+		}
 		Utils::getVoid('UPDATE applications SET state=:state,time_response=NOW() WHERE crn=:crn AND netid=:netid',
 			array(':state' => $newState, ':crn' => $this->crn, ':netid' => $this->netid));
 		$this->state = $newState;

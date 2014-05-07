@@ -9,7 +9,7 @@
 require_once('ta.php');
 require_once('course.php');
 require_once('application.php');
-
+require_once('utils.php');
 if (!isset($_POST["netid"]) || !isset($_POST["state"]) || (!isset($_POST["crn"]) && (!isset($_POST["course"]) || !isset($_POST["department"]) || !isset($_POST["semester"]) || !isset($_POST["year"])))) {
 ?>
 <p> Would you like to review TA applications for a course?</p>
@@ -34,6 +34,7 @@ if (!isset($_POST["netid"]) || !isset($_POST["state"]) || (!isset($_POST["crn"])
 }
 else {
 	$guard = true;
+	Utils::beginTransaction();
 	if (isset($_POST["crn"])) {
 		$crn = $_POST["crn"];
 	}
@@ -48,6 +49,7 @@ else {
 		catch (Exception $e) {
 			echo "<p>ERROR: There is no $dept $course class in $semester $year</p>\n";
 			$guard = false;
+			Utils::cancelTransaction();
 		}
 	}
 	$netid = $_POST["netid"];
@@ -58,16 +60,26 @@ else {
 		catch (Exception $e) {
 			echo "<p>ERROR: student $netid never applied to course $crn</p>\n";	
 			$guard = false;
+			Utils::cancelTransaction();
 		}
 	}
 	$state = $_POST["state"];
 	if ($guard) {
 		if ($application->getState() != $state) {
-			$application->setState($_POST["state"]);
+			try {
+				$application->setState($state);
+			}
+			catch (Exception $e) {
+				echo "<p>ERROR: too many students have been approved for course $crn</p>\n";
+				$guard = false;
+			}
 		}
 		else {
 			echo "<p>WARNING: The state of the application of $netid to $crn was already in state $state</p>\n";
 		}
+	}
+	if ($guard) {
+		Utils::commitTransaction();
 	}
 }
 ?>

@@ -42,7 +42,7 @@ class Course {
 	public function getDepartment() { return $this->department; }
 	public function getNumber() { return $this->number; }
 	public function getName() { return $this->name; }
-	public function getPositionCount() { return $this->positions; }
+	public function getPositions() { return $this->positions; }
 	public function getDescription() { return $this->description; }
 
 	public function getInstructors() {
@@ -134,8 +134,8 @@ class Course {
 			foreach ($row as $key => $val) {
 				$row2[':' . $key] = $val;
 			}
-			Utils::getVoid('INSERT INTO courses (crn,year,semester,department,course_number,name,description)
-				VALUES (:crn,:year,:semester,:department,:course_number,:name,:description)',
+			Utils::getVoid('INSERT INTO courses (crn,year,semester,department,course_number,name,description,position_count)
+				VALUES (:crn,:year,:semester,:department,:course_number,:name,:description,:position_count)',
 				$row2);
 		}
 	}
