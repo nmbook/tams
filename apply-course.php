@@ -7,10 +7,10 @@
 <?php
 require_once('course.php');
 require_once('ta.php');
-if (!isset($_GET['netid']) || !isset($_GET['for_credit']) ||
-    (!isset($_GET['crn']) && !(isset($_GET['dept']) && isset($_GET['number']) && isset($_GET['year']) && isset($_GET['semester'])))) {
+if (!isset($_POST['netid']) || !isset($_POST['for_credit']) ||
+    (!isset($_POST['crn']) && !(isset($_POST['dept']) && isset($_POST['number']) && isset($_POST['year']) && isset($_POST['semester'])))) {
 ?>
-    <form action="apply-course.php" method="get">
+    <form action="apply-course.php" method="post">
     <label for="netid">Netid:</label>
     <input type="text" name="netid" id="netid"></input><br/>
     <label for="for_credit">For Credit?:</label>
@@ -27,8 +27,8 @@ if (!isset($_GET['netid']) || !isset($_GET['for_credit']) ||
     </form>
 <?php
 } else {
-    $netid = $_GET['netid'];
-    $for_credit = $_GET['for_credit'];
+    $netid = $_POST['netid'];
+    $for_credit = $_POST['for_credit'];
 	$guard = false;
     try {
         $ta = TA::getByNetID($netid);
@@ -37,14 +37,14 @@ if (!isset($_GET['netid']) || !isset($_GET['for_credit']) ||
         echo "<p>ERROR: a TA with netid $netid is not in our database</p>\n";
 		$guard = true;
     }
-    if (isset($_GET['crn'])) {
-        $crn = $_GET['crn'];
+    if (isset($_POST['crn'])) {
+        $crn = $_POST['crn'];
     }
     else {
-		$dept = $_GET['dept'];
-		$number= $_GET['number'];
-		$year = $_GET['year'];
-		$semester = $_GET['semester'];
+		$dept = $_POST['dept'];
+		$number= $_POST['number'];
+		$year = $_POST['year'];
+		$semester = $_POST['semester'];
         try {
             $crn = Course::getCourseByName($dept,$number,$year,$semester)->getCrn();	
         }
