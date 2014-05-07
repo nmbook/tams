@@ -22,7 +22,7 @@ class Instructor
     public function __construct($row) {
         $this->netid = $row['netid'];
         $this->name = $row['name'];
-        $this->office = $row['office'];
+        $this->office = $row['office_room'];
         if (array_key_exists('email',$row))
             $this->email = $row['email'];
         else
@@ -47,6 +47,10 @@ class Instructor
         return $this->classes;
     }
 
+	public function update() {
+		$this->classes = NULL;	
+	}
+
     static public function getByNetID($netid) {
         $row = Utils::getSingle(
             'SELECT * FROM instructors
@@ -57,7 +61,7 @@ class Instructor
     }
 
 	public function assignCourse($crn) {
-		Utils::getVoid('Update teaches SET netid = :netid WHERE crn = :crn',
+		Utils::getVoid('INSERT teaches (netid,crn) VALUES (:netid,:crn)',
 			array(':netid' => $this-> netid,
 			':crn' => $crn));
 		$this->update();
