@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head><title>Course TA Signups - TA Management System</title></head>
+<head>
+<link rel="stylesheet" type="text/css" href="front.css">
+<title>Course TA Signups - TA Management System</title></head>
 <body>
-<h1>TA Management System on Betaweb</h1>
+<div id="hajim_header" style="background-image:url(http://www.hajim.rochester.edu/assets/images/templates/header-background.png); width:960px;margin:auto">
+<img alt="Hajim School of Engineering and Applied Sciences" src="//www.hajim.rochester.edu/assets/images/templates/header-logo.png" style="float:left;">
+<a href="index.php">
+<img alt="Department of Computer Science" src="//www.hajim.rochester.edu/assets/images/templates/csc-header-title.png" style="float:right;">
+</a>
+<br clear="all">
+</div>
+
 <h2>Course TA Signups</h2>
+<div id = "main" style = "margin-top:-16px;">
+
 <?php
 
 require_once('ta.php');
@@ -65,6 +76,8 @@ else {
 <?php
 }
 ?>
+</div><div id = "footer"></div>
+
 </body>
 </html>
 
