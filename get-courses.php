@@ -31,10 +31,10 @@ Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 	else {
 		$netid = $_GET['netid'];
 		$year = $_GET['year'];
-		echo '<div id = "main" style = "margin-top:-16px;"><table cellspacing="1"><thead><th width ="100"> CRN </th><th width="300">Course Name</th><th width="50">Day</th><th width="150">Time</th><th>Room</th></thead><tbody>';
+		echo '<div id = "main" ><table cellspacing="1"><thead><th width ="100"> CRN </th><th width="300">Course Name</th><th width = "100">Semester </th><th width="50">Day</th><th width="150">Time</th><th>Room</th></thead><tbody>';
 		$courses = Course::getCoursesByNetid($netid, $year);
 		foreach ($courses as $course) {
-			echo "<tr><td>{$course['crn']}</td><td>{$course['name']}</td><td>{$course['weekday']}</td><td>{$course['start_time']}</td><td>{$course['room']}</td></tr>";
+			echo "<tr><td>{$course['crn']}</td><td>{$course['name']}</td><td>{$course['semester']}</td><td>{$course['weekday']}</td><td>{$course['start_time']}</td><td>{$course['room']}</td></tr>";
 		}
 		echo '</tbody></table>';
 	}
