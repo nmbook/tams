@@ -1,4 +1,4 @@
-    #yellowtab {
+    h2 {
     margin: 0 auto;
 padding: 0;
 width: 960px;
@@ -10,7 +10,9 @@ text-align: center;
     #mainform {
     text-align: center;
 }
-
+	#newTAbutton {
+	float: right;
+}
   body {
     width: 960px;
     margin: auto;
