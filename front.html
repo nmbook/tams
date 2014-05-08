@@ -3,10 +3,17 @@
 <head><title>TA Management System</title>
 <link rel="stylesheet" type="text/css" href="front.css">
 <script>
+function Talogin()
+{
+document.getElementById("mainform").style.display = "block";
+document.getElementById("formplace").style.display = "none";
+}
 function createTA()
 {
 document.getElementById("mainform").style.display = "none";
-document.getElementById("newTAbutton").style.display = "none";
+document.getElementById("formplace").style.display = "block";
+//document.getElementById("newTAbutton").style.display = "none";
+/*
 var f = document.createElement("newTA");
 f.setAttribute('method',"post");
 f.setAttribute('action',"submit.php");
@@ -26,6 +33,7 @@ document.getElementById('formplace').appendChild(f);
 //var i1 = document.createElement("input");
 //var iocument.createElement("input");
 //document.createElement("button");
+*/
 }
 
 
@@ -52,7 +60,17 @@ Password: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 <input type="submit"value = "login" id = "login">
 <button id= "newTAbutton" type="button" onclick="createTA()">New TA</button>
 </form>
-<p id = "formplace"></p>
+<form id = "formplace">
+First Name: <input type="text" name="fname" ><br>
+Last Name: <input type="text" name="lname" ><br>
+Netid: <input type="text" name="netid" ><br>
+Password: <input type="text" name="password" ><br>
+
+
+<input type="submit"value = "create" id = "login">
+<button id= "Talogin" type="button" onclick="TAlogin()">Back to Login </button>
+</form>
+
 </div>
 <div id= "footer"></div>
 </body>

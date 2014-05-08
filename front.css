@@ -18,7 +18,8 @@ margin-left:370px;
 }
 #formplace {
     float: left;
-margin-left:350px;
+	display:hidden;
+	margin-left:350px;
 }
 	#newTAbutton {}
   body {
