@@ -1,5 +1,5 @@
 #login {
-	margin-left: 65px;
+	margin-left: 60px;
 }    
 h2 {
     margin: 0 auto;
@@ -20,9 +20,7 @@ margin-left:370px;
     float: left;
 margin-left:350px;
 }
-	#newTAbutton {
-	float: right;
-}
+	#newTAbutton {}
   body {
     width: 960px;
     margin: auto;
