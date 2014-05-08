@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head><title>TA Management System</title>
+<script>
+function createTA()
+{
+document.getElementByClass("center").style.display = "none";
+a();
+}
+</script>
 <style type="text/css">
  	#yellowtab {
 	margin: 0;
 padding: 0;
 width: 960px;
 height: 27px;
-background-image: url(http://www.cs.rochester.edu/images/templates/department-nav-background.png);
+background-image: url(http://www.hajim.rochester.edu/assets/images/templates/department-nav-background.png);
 background-repeat: repeat-x;
+text-align: center;
 	}
+	.center {
+	text-align: center;
+}
   body {
     color: blue;
     background-color: white }
@@ -28,34 +39,22 @@ background-repeat: repeat-x;
 </div>
 <h3 id="yellowtab" >Group (TuesdayNight, TND):</h3>
 
-<h3>Design:</h3>
-<li><b><a href="design/dbsys-tuesdaynight-v4.pdf">version 4</a></b></li>
-<li><a href="design/dbsys-tuesdaynight-v3.pdf">version 3</a></li>
-<li><a href="design/dbsys-tuesdaynight-v2.pdf">version 2</a></li>
-<li><a href="design/dbsys-tuesdaynight-v1.pdf">version 1</a></li>
-</ul>
-<h3>Database implementation status:</h3>
-<ul>
-<li><a href="dbsetup-tuesdaynight.sql">Database setup script</a></li>
-<li><a href="datasetup-tuesdaynight.sql">Test data insert script</a></li>
-<li><a href="testqueries-tuesdaynight.sql">Test query script</a></li>
-<li><a href="testqueriesout-tuesdaynight.txt">Test query output</a></li>
-</ul>
-<h3>Data abstraction status:</h3>
-<ul>
-<li><b><a href="ta.txt">TA (source)</a></b></li>
-<li><a href="instructor.txt">Instructor (source)</a></li>
-</ul>
-<h3>Data abstraction test websites:</h3>
-<ul>
-<li><a href="talist-tuesdaynight.php">TA lister</a></li>
-<li><a href="importer.php">Instructor and C   ourse importer</a></li>
-<li><a href="ta-list-for-course.php">Course TA signups</a></li>
-<li><a href="ta-create.php">TA account creator</a></li>
-<li><a href="ta-signup.php">TA signup</a></li>
-<li><a href="get-courses.php">"get-courses"</a></li>
-<li><a href="apply-course.php">"apply-course"</a></li>
-</ul>
-<h3>Final website:</h3>
+<form class = "center"action=".php" method="get">
+Netid: <input type="text" name="netid"  placeholder="<?php echo $netid?>" ><br>
+Password: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
+
+
+<input type="submit">i
+</form>
+<script>
+function a()
+{
+document.write("<form id='form1' name='form1'action=''>");
+document.write(" <td><input name='name' type='text' id='name'/></td>");
+ document.write("<td><input name='address' type='text' id='address'/></td>");
+</script>
+<button type="button" onclick="registration script">New TA</button>
+<form id = "newTA" >
+</form>
 </body>
 </html>
