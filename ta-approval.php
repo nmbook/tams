@@ -10,7 +10,7 @@
 <br clear="all">
 
 <h2>Course TA Signups</h2>
-<div id = "main">
+<div id = "main" style = "margin-top: -16px;">
 <?php
 
 require_once('ta.php');
