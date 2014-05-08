@@ -4,7 +4,11 @@
 <link rel="stylesheet" type="text/css" href="front.css">
 </head>
 <body>
-<h1>TA Management System on Betaweb</h1>
+<div id="hajim_header" style="background-image:url(http://www.hajim.rochester.edu/assets/images/templates/header-background.png); width:960px;margin:auto">
+<img alt="Hajim School of Engineering and Applied Sciences" src="//www.hajim.rochester.edu/assets/images/templates/header-logo.png" style="float:left;">
+<img alt="Department of Computer Science" src="//www.hajim.rochester.edu/assets/images/templates/csc-header-title.png" style="float:right;">
+<br clear="all">
+
 <h2>Course TA Signups</h2>
 <?php
 
