@@ -5,12 +5,11 @@
 function createTA()
 {
 document.getElementByClass("center").style.display = "none";
-a();
 }
 </script>
 <style type="text/css">
  	#yellowtab {
-	margin: 0;
+	margin: 0 auto;
 padding: 0;
 width: 960px;
 height: 27px;
@@ -21,7 +20,9 @@ text-align: center;
 	.center {
 	text-align: center;
 }
-  body {
+  body {i
+	width: 960px;
+	margin: auto;
     color: blue;
     background-color: white }
   </style>
@@ -53,7 +54,7 @@ document.write("<form id='form1' name='form1'action=''>");
 document.write(" <td><input name='name' type='text' id='name'/></td>");
  document.write("<td><input name='address' type='text' id='address'/></td>");
 </script>
-<button type="button" onclick="registration script">New TA</button>
+<button type="button" onclick="createTA()">New TA</button>
 <form id = "newTA" >
 </form>
 </body>
