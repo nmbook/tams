@@ -40,7 +40,7 @@ body {
 #main{
     background-color:white;
     opacity: 0.9;
-    height: 435px;
+	height: 550px;   
 }
 #footer{
     background-image: url(http://www.hajim.rochester.edu/assets/images/templates/department-newsbar.png);
