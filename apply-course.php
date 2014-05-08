@@ -7,8 +7,25 @@
 <?php
 require_once('course.php');
 require_once('ta.php');
-if (!isset($_POST['netid']) || !isset($_POST['for_credit']) ||
-    (!isset($_POST['crn']) && !(isset($_POST['dept']) && isset($_POST['number']) && isset($_POST['year']) && isset($_POST['semester'])))) {
+
+function render() {
+	if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password'])) {
+?>
+		<p>You are not logged in. Go <a href="lorem ipsum">here</a> to login</p>
+<?php
+		return;
+	}
+	$netid = $_COOKIE['netid'];
+	$password = $_COOKIE['netid'];
+	try {
+		$ta = TA::getByCredentials($netid,$password);
+	}
+	catch (Exception $e) {
+		echo "<p>ERROR: a TA with netid $netid and password $password is not in our database</p>\n";
+		return;
+	}
+	if (!isset($_POST['for_credit']) || (!isset($_POST['crn']) && 
+		!(isset($_POST['dept']) && isset($_POST['number']) && isset($_POST['year']) && isset($_POST['semester'])))) {
 ?>
     <form action="apply-course.php" method="post">
     <label for="netid">Netid:</label>
@@ -26,43 +43,33 @@ if (!isset($_POST['netid']) || !isset($_POST['for_credit']) ||
     <input type="submit"></input>
     </form>
 <?php
-} else {
-    $netid = $_POST['netid'];
-    $for_credit = $_POST['for_credit'];
-	$guard = false;
-    try {
-        $ta = TA::getByNetID($netid);
-    }
-    catch (Exception $e) {
-        echo "<p>ERROR: a TA with netid $netid is not in our database</p>\n";
-		$guard = true;
-    }
-    if (isset($_POST['crn'])) {
+		return;
+	}
+	if (isset($_POST['crn'])) {
         $crn = $_POST['crn'];
     }
     else {
-		$dept = $_POST['dept'];
-		$number= $_POST['number'];
-		$year = $_POST['year'];
-		$semester = $_POST['semester'];
+        $dept = $_POST['dept'];
+        $number= $_POST['number'];
+        $year = $_POST['year'];
+        $semester = $_POST['semester'];
         try {
-            $crn = Course::getCourseByName($dept,$number,$year,$semester)->getCrn();	
+            $crn = Course::getCourseByName($dept,$number,$year,$semester)->getCrn();
         }
         catch (Exception $e) {
-			echo "<p>ERROR: there is no $dept $number class in $semester $year</p>\n";
-			$guard = true;
+            echo "<p>ERROR: there is no $dept $number class in $semester $year</p>\n";
+            return;
         }
     }
-	if (!$guard) {
-		try {
-        	$ta->applyCourse($crn,$for_credit);
-			echo "<p>Course application sucessful!</p>\n";
-		}
-		catch (Exception $e) {
-			echo "<p>ERROR: course application failed. Perhaps you already applied for this course?</p>\n";	
-		}
+    try {
+		$ta->applyCourse($crn,$for_credit);
+		echo "<p>Course application sucessful!</p>\n";
+	}
+	catch (Exception $e) {
+		echo "<p>ERROR: course application failed. Perhaps you already applied for this course?</p>\n";
 	}
 }
+render();
 ?>
 <a href=".">&lt-- Back</a>
 </body>

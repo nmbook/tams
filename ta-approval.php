@@ -10,7 +10,25 @@ require_once('ta.php');
 require_once('course.php');
 require_once('application.php');
 require_once('utils.php');
-if (!isset($_POST["netid"]) || !isset($_POST["state"]) || (!isset($_POST["crn"]) && (!isset($_POST["course"]) || !isset($_POST["department"]) || !isset($_POST["semester"]) || !isset($_POST["year"])))) {
+function render() {
+	if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password'])) {
+?>
+	<p>You have not logged in. Go <a href="lorem ipsum">here</a> to login.</p>
+<?php
+		return;	
+	}
+	$prof_netid = $_COOKIE['netid'];
+	$password = $_COOKIE['password'];
+	Utils::beginTransaction();
+	try {
+		$professor = Instructor::getByCredentials($prof_netid,$password);	
+	}
+	catch (Exception $e) {
+		echo "<p>ERROR: a professor with netid $netid and password $password is not in our database.</p>\n";
+		Utils::cancelTransaction();
+		return;		
+	}
+	if (!isset($_POST["netid"]) || !isset($_POST["state"]) || (!isset($_POST["crn"]) && (!isset($_POST["course"]) || !isset($_POST["department"]) || !isset($_POST["semester"]) || !isset($_POST["year"])))) {
 ?>
 <p> Would you like to review TA applications for a course?</p>
 <form action="ta-approval.php" method="post">
@@ -31,57 +49,57 @@ if (!isset($_POST["netid"]) || !isset($_POST["state"]) || (!isset($_POST["crn"])
 </form>
 <a href=".">&lt;-- Back</a>
 <?php
-}
-else {
-	$guard = true;
-	Utils::beginTransaction();
-	if (isset($_POST["crn"])) {
-		$crn = $_POST["crn"];
+		Utils::commitTransaction();
+		return;
 	}
-	else {
-		$dept = $_POST["department"];
-		$course = $_POST["course"];
-		$year = $_POST["year"];
-		$semester = $_POST["semester"];
-		try {
-			$crn = Course::getCourseByName($dept, $course, $year, $semester)->getCrn();
-		}
-		catch (Exception $e) {
-			echo "<p>ERROR: There is no $dept $course class in $semester $year</p>\n";
-			$guard = false;
-			Utils::cancelTransaction();
-		}
+    if (isset($_POST["crn"])) {
+        $crn = $_POST["crn"];
+    }
+    else {
+        $dept = $_POST["department"];
+        $course = $_POST["course"];
+        $year = $_POST["year"];
+        $semester = $_POST["semester"];
+        try {
+            $crn = Course::getCourseByName($dept, $course, $year, $semester)->getCrn();
+        }
+        catch (Exception $e) {
+            echo "<p>ERROR: There is no $dept $course class in $semester $year</p>\n";
+            Utils::cancelTransaction();
+			return;
+        }
+    }
+	if (!in_array($crn,array_map(function ($x) { return $x->getCrn(); }, $professor->getClasses()))) {
+		echo "<p>ERROR: you do not teach this class, and thus cannot approve students</p>\n";
+		Utils::cancelTransaction();
+		return;
 	}
 	$netid = $_POST["netid"];
-	if ($guard) {
-		try {
-			$application = Application::getByName($crn,$netid);
-		}
-		catch (Exception $e) {
-			echo "<p>ERROR: student $netid never applied to course $crn</p>\n";	
-			$guard = false;
-			Utils::cancelTransaction();
-		}
+    try {
+       	$application = Application::getByName($crn,$netid);
+    }
+    catch (Exception $e) {
+        echo "<p>ERROR: student $netid never applied to course $crn</p>\n";
+        Utils::cancelTransaction();
+    	return;
 	}
-	$state = $_POST["state"];
-	if ($guard) {
-		if ($application->getState() != $state) {
-			try {
-				$application->setState($state);
-			}
-			catch (Exception $e) {
-				echo "<p>ERROR: too many students have been approved for course $crn</p>\n";
-				$guard = false;
-			}
-		}
-		else {
-			echo "<p>WARNING: The state of the application of $netid to $crn was already in state $state</p>\n";
-		}
-	}
-	if ($guard) {
-		Utils::commitTransaction();
-	}
+    $state = $_POST["state"];
+    if ($application->getState() != $state) {
+        try {
+            $application->setState($state);
+        }
+        catch (Exception $e) {
+            echo "<p>ERROR: too many students have been approved for course $crn</p>\n";
+            Utils::cancelTransaction();
+			return;
+    	}
+    }
+    else {
+        echo "<p>WARNING: The state of the application of $netid to $crn was already in state $state</p>\n";
+    }
+    Utils::commitTransaction();
 }
+render();
 ?>
 </body>
 </html>
