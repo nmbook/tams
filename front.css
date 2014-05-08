@@ -1,47 +1,51 @@
 #login {
-	margin-left: 60px;
+    margin-left: 60px;
 }    
 h2 {
     margin: 0 auto;
-padding: 0;
-width: 960px;
-height: 27px;
-background-image: url(http://www.hajim.rochester.edu/assets/images/templates/department-nav-background.png);
-background-repeat: repeat-x;
-text-align: center;
-    }
-    #mainform {
-	margin-top: 35px;
-	float: left;
-margin-left:370px;
-	font-size:150%;
+    padding: 0;
+    width: 960px;
+    height: 27px;
+    background-image: url(http://www.hajim.rochester.edu/assets/images/templates/department-nav-background.png);
+    background-repeat: repeat-x;
+    text-align: center;
+}
+h3 {
+    margin: 0;
+    text-align: center;
+}
+#mainform {
+    margin-top: 35px;
+    float: left;
+    margin-left:370px;
+    font-size:150%;
 }
 #formplace {
-	 margin-top: 35px;
-	margin-left:370px;
+    margin-top: 35px;
+    margin-left:370px;
     font-size:150%;
     float: left;
-	display:none;
-	margin-left:350px;
+    display:none;
+    margin-left:350px;
 }
-	#newTAbutton {}
-  body {
+#newTAbutton {}
+body {
     width: 960px;
     margin: auto;
     color: black;
     background-color: white;
     width: 960px;
     background-image: url(http://www.hajim.rochester.edu/assets/images/templates/computer-science-backgrd_FLAT.jpg);
-    }
-    #main{
+}
+#main{
     background-color:white;
-	opacity: 0.9;
-	height: 435px;
+    opacity: 0.9;
+    height: 435px;
 }
 #footer{
-	background-image: url(http://www.hajim.rochester.edu/assets/images/templates/department-newsbar.png);
-	height:79px;
+    background-image: url(http://www.hajim.rochester.edu/assets/images/templates/department-newsbar.png);
+    height:79px;
 
-	background-repeat: repeat-x;
+    background-repeat: repeat-x;
 }
 
