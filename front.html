@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head><title>TA Management System</title>
+<link rel="stylesheet" type="text/css" href="front.css">
 <script>
 function createTA()
 {
-
 document.getElementById("mainform").style.display = "none";
+document.getElementById("newTAbutton").style.display = "none";
 var f = document.createElement("newTA");
 f.setAttribute('method',"post");
 f.setAttribute('action',"submit.php");
@@ -49,11 +50,10 @@ text-align: center;
     color: black;
     background-color: white;
 	width: 960px;
-	background-image: url(http://www.cs.rochester.edu/assets/images/homepage/rr_lib.jpg); 
+	background-image: url(http://www.hajim.rochester.edu/assets/images/templates/computer-science-backgrd_FLAT.jpg); 
 	}
 	#main{
-	background-color: blue;
-	opacity: 0.8;
+	background-image: url(http://www.cs.rochester.edu/assets/images/homepage/rr_lib.jpg);
 	height: 500px;
 	}
   </style>
@@ -78,7 +78,7 @@ Password: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 
 <input type="submit">
 </form>
-<button type="button" onclick="createTA()">New TA</button>
+<button id= "newTAbutton" type="button" onclick="createTA()">New TA</button>
 <p id = "formplace"></p>
 </div>
 </body>
