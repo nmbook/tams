@@ -31,6 +31,12 @@ margin-left:350px;
     }
     #main{
     background-image: url(http://www.cs.rochester.edu/assets/images/homepage/rr_lib.jpg);
-    height: 500px;
+    height: 435px;
+}
+#footer{
+	background-image: url(http://www.hajim.rochester.edu/assets/images/templates/department-newsbar.png);
+	height:79px;
+
+	background-repeat: repeat-x;
 }
 
