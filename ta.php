@@ -94,6 +94,15 @@ class TA {
         	function ($x) { return new TA($x); });
     }
 
+    static public function getByCredentials($netid, $password) {
+        return Utils::getSingle(
+            'SELECT * FROM tas
+            WHERE netid=:netid
+            AND credentials=:password',
+            array(':netid' => $netid,':password' => $password),
+            function ($x) { return new TA($x); });
+    }
+
     static public function getByRange($start,$len) {
         return Utils::getMapping(
             'SELECT * FROM tas

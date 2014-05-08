@@ -4,8 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors',1);
 
 require_once('ta.php');
+require_once('utils.php');
 
-session_start();
+$login_obj = Utils::getCurrentLogin();
 
 $act = isset($_GET['act']) ? $_GET['act'] : '';
 
@@ -17,16 +18,15 @@ if ($act == 'login') {
         $ta_obj = TA::getByNetID($netid);
         $h_password = $ta_obj->getPassword();
         if (Utils::passwordVerify($password, $h_password)) {
-            setcookie('login', $netid, time()+3600);
-            setcookie('login_n', $ta_obj->getName(), time()+3600);
-            setcookie('login_e', $ta_obj->getEmail(), time()+3600);
-            setcookie('login_y', $ta_obj->getClassYear(), time()+3600);
+            setcookie('netid', $netid, time()+3600);
+            setcookie('password', $h_password, time()+3600);
             $status = "Hello, you have logged in as {$ta_obj->getName()}!";
+            $login_obj = $ta_obj;
         } else {
-            $status = 'Login failure: Username or password is incorrect. (P)';
+            $status = 'Login failure: Username or password is incorrect.';
         }
     } catch (TamsException $ex) {
-        $status = 'Login failure: Username or password is incorrect. (N)';
+        $status = 'Login failure: Username or password is incorrect.';
     }
 } elseif ($act == 'create') {
     $netid = isset($_POST['netid']) ? $_POST['netid'] : '';
@@ -39,11 +39,7 @@ if ($act == 'login') {
     try {
         TA::create($netid, "$fname $lname", $email, Utils::passwordCreate($password), $year);
         $ta_obj = TA::getByNetID($netid);
-        //setcookie('login', $netid, time()+3600);
-        //setcookie('login_n', $ta_obj->getName(), time()+3600);
-        //setcookie('login_e', $ta_obj->getEmail(), time()+3600);
-        //setcookie('login_y', $ta_obj->getClassYear(), time()+3600);
-        $status = "You have created an account {$ta_obj->getName()}!";
+        $status = "You have created an account, {$ta_obj->getName()}!";
     } catch (TamsException $ex) {
         $status = 'Create failure: '.$ex;
     }
@@ -102,7 +98,14 @@ function createTA()
 <br clear="all">
 
 </div>
-<h2 id="yellowtab" >Group (TuesdayNight, TND):</h2>
+<h2 id="yellowtab" >TA Management System (Group: TuesdayNight) |
+<?php
+if ($login_obj !== false) {
+    echo "Hello, {$login_obj->getName()}!";
+} else {
+    echo 'Welcome';
+}
+?></h2>
 <div id="main">
 <?php if (isset($status)) { ?>
 <div class="message"><?php echo $status; ?></div>

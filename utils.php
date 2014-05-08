@@ -179,5 +179,20 @@ class Utils {
         //echo "RESULT $result<br>";
         return $result === $hashed;
     }
+
+    // call this to get the current logged in user
+    // If no one is logged in, return false.
+    public static function getCurrentLogin() {
+        if (isset($_COOKIE['netid']) && isset($_COOKIE['password'])) {
+            try {
+                $ta_obj = TA::getByCredentials($_COOKIE['netid'], $_COOKIE['password']);
+                return $ta_obj;
+            } catch (TamsException $ex) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
 

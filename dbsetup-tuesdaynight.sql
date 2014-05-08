@@ -49,7 +49,7 @@ CREATE TABLE tas (
     netid VARCHAR(8) NOT NULL PRIMARY KEY, -- natural key
     name VARCHAR(32) NOT NULL,
     email VARCHAR(256) NOT NULL,
-    class_year SMALLINT(4) NULL,
+    class_year YEAR NULL,
     credentials VARCHAR(256) NULL
 ) ENGINE=InnoDB;
 
