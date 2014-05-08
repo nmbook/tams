@@ -53,19 +53,28 @@ document.getElementById('formplace').appendChild(f);
 <h2 id="yellowtab" >Group (TuesdayNight, TND):</h2>
 <div id = main>
 <form id = "mainform"action=".php" method="get">
-Netid:     <input type="text" name="netid"   ><br>
-Password: <input type="password" name="password" ><br>
-
-
+<table>
+<tr>
+	<td align = "right">
+		Netid: </td> <td>   <input type="text" name="netid"   >
+	</td>
+</tr><tr>
+	<td align = "right">
+	Password:</td> <td> <input type="password" name="password" >
+	</td></tr>
+</table>
 <input type="submit"value = "login" id = "login">
 <button id= "newTAbutton" type="button" onclick="createTA()">New TA</button>
 </form>
 <form id = "formplace">
-First Name: <input type="text" name="fname" ><br>
-Last Name: <input type="text" name="lname" ><br>
-Netid: <input type="text" name="netid" ><br>
-Password: <input type="password" name="password" ><br>
-
+<table>
+<tr>
+<td>First Name:</td><td> <input type="text" name="fname" ></td>
+</tr><tr><td>Last Name:</td><td> <input type="text" name="lname" ></td>
+</tr><tr><td>Netid:</td><td> <input type="text" name="netid" ></td>
+</tr><tr><td>Password:</td><td> <input type="password" name="password" ></td>
+</tr>
+</table>
 
 <input type="submit"value = "create" id = "login">
 <button id= "Talogin" type="button" onclick="TAlogin()">Back to Login </button>

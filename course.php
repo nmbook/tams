@@ -141,7 +141,7 @@ class Course {
 	}
 
 	static public function getCoursesByNetid($netid, $year) {
-        return Utils::getMapping('SELECT c.crn, c.name, weekday, start_time, room
+        return Utils::getMapping('SELECT c.crn, c.name,c.semester, weekday, start_time, room
                 FROM instructors i
                 INNER JOIN teaches t
                 ON t.netid = i.netid
