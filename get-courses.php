@@ -11,7 +11,7 @@
 <img alt="Department of Computer Science" src="//www.hajim.rochester.edu/assets/images/templates/csc-header-title.png" style="float:right;">
 </a>
 <br clear="all">
-
+</div>
 <h2>Course Lister</h2>
 <?php
 	require_once('course.php');
