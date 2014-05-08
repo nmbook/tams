@@ -12,7 +12,8 @@ text-align: center;
     }
     #mainform {
 	float: left;
-margin-left:350px;
+margin-left:370px;
+	font-size:150%;
 }
 #formplace {
     float: left;
