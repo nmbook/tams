@@ -10,6 +10,7 @@
 <br clear="all">
 
 <h2>Course TA Signups</h2>
+<div id = "main">
 <?php
 
 require_once('ta.php');
@@ -107,6 +108,9 @@ function render() {
 }
 render();
 ?>
+</div>
+<div id= "footer"></div>
+
 </body>
 </html>
 
