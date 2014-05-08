@@ -4,9 +4,15 @@
 <script>
 function createTA()
 {
+
 document.getElementById("mainform").style.display = "none";
-a();
+newTAForm = document.getElementById("newTA");
+var i1 = document.createElement("input");
+var i2 = document.createElement("input");
+document.createElement("button");
 }
+
+
 </script>
 <style type="text/css">
  	#yellowtab {
@@ -51,14 +57,6 @@ Password: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 
 <input type="submit">i
 </form>
-<script>
-function a()
-{
-document.write("<form id='form1' name='form1'action=''>");
-document.write(" <td><input name='name' type='text' id='name'/></td>");
- document.write("<td><input name='address' type='text' id='address'/></td>");
-}
-</script>
 <button type="button" onclick="createTA()">New TA</button>
 <form id = "newTA" >
 </form>
