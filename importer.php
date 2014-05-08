@@ -100,7 +100,7 @@ function handle_import($data, $as, $dt) {
 </div>
 
 <h2>Data Import Page</h2>
-
+<div id = "main">
 <?php
 // "as", the table data we are importing, currently hardcoded as "courses"
 $as = isset($_POST['as']) ? $_POST['as'] : '';
