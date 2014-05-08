@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head><title>Course TA Approval - TA Management System</title></head>
+<head><title>Course TA Approval - TA Management System</title>
+<link rel="stylesheet" type="text/css" href="front.css">
+</head>
 <body>
 <h1>TA Management System on Betaweb</h1>
 <h2>Course TA Signups</h2>
@@ -13,7 +15,7 @@ require_once('utils.php');
 function render() {
 	if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password'])) {
 ?>
-	<p>You have not logged in. Go <a href="lorem ipsum">here</a> to login.</p>
+	<p>You have not logged in. Go <a href="index.html">here</a> to login.</p>
 <?php
 		return;	
 	}
