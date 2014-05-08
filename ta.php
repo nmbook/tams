@@ -27,7 +27,7 @@ class TA {
     public function __construct($row) {
         $this->netid = $row['netid'];
         $this->name = $row['name'];
-		$this->password = $row['password'];
+		$this->password = $row['credentials'];
         $this->class_year = $row['class_year'];
         if (array_key_exists('email',$row))
             $this->email = $row['email'];
@@ -76,7 +76,7 @@ class TA {
     public static function create($netid, $name, $email, $password, $class_year) {
         Utils::getVoid(
             'INSERT INTO tas
-             (netid,name,email,password,class_year)
+             (netid,name,email,credentials,class_year)
              VALUES
              (:netid,:name,:email,:password,:year)',
 			array('netid' => $netid,
@@ -93,15 +93,6 @@ class TA {
         	array(':netid' => $netid),
         	function ($x) { return new TA($x); });
     }
-
-	static public function getByCredentials($netid, $password) {
-		return Utils::getSingle(
-            'SELECT * FROM tas
-             WHERE netid=:netid
-			AND password=:password',
-            array(':netid' => $netid,':password' => $password),
-            function ($x) { return new TA($x); });
-	}
 
     static public function getByRange($start,$len) {
         return Utils::getMapping(
