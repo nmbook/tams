@@ -13,7 +13,7 @@
 </div>
 
 <h2>Professor update</h2>
-<div id = "main">
+<div id = "main" style="margin-top:-16px;">
 <?php
 require_once('instructor.php');
 require_once('course.php');    
