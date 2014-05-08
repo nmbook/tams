@@ -49,6 +49,7 @@ CREATE TABLE tas (
     netid VARCHAR(8) NOT NULL PRIMARY KEY, -- natural key
     name VARCHAR(32) NOT NULL,
     email VARCHAR(256) NOT NULL,
+	password VARCHAR(8) NOT NULL,
     class_year SMALLINT(4) NULL,
     credentials VARCHAR(256) NULL
 ) ENGINE=InnoDB;
@@ -58,6 +59,7 @@ CREATE TABLE instructors (
     netid VARCHAR(8) NOT NULL PRIMARY KEY, -- natural key
     name VARCHAR(32) NOT NULL,
     email VARCHAR(256) NOT NULL,
+	password VARCHAR(8) NOT NULL,
     office_room VARCHAR(32) NULL,
     credentials VARCHAR(256) NULL
 ) ENGINE=InnoDB;

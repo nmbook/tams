@@ -16,12 +16,14 @@ class Instructor
     private $netid;
     private $name;
     private $email;
+	private $password;
     private $office;
     private $classes;
 
     public function __construct($row) {
         $this->netid = $row['netid'];
         $this->name = $row['name'];
+		$this->password = $row['password'];
         $this->office = $row['office_room'];
         if (array_key_exists('email',$row))
             $this->email = $row['email'];
@@ -32,6 +34,7 @@ class Instructor
 
     public function getNetID() {return $this->netid;}
     public function getName()  {return $this->name;}
+	public function getPassword() {return $this->password;}
     public function getEmail() {return $this->email;}
     public function getOffice() {return $this->office;}
 
@@ -52,13 +55,21 @@ class Instructor
 	}
 
     static public function getByNetID($netid) {
-        $row = Utils::getSingle(
+        return Utils::getSingle(
             'SELECT * FROM instructors
              WHERE netid=:netid',
             array(':netid' => $netid),
             function ($x) { return new Instructor($x); });
-        return $row;
     }
+
+	static public function getByCredentials($netid,$password) {
+		 return Utils::getSingle(
+            'SELECT * FROM instructors
+             WHERE netid=:netid
+			AND password=:password',
+            array(':netid' => $netid,':password' => $password),
+            function ($x) { return new Instructor($x); });
+	}
 
 	public function assignCourse($crn) {
 		Utils::getVoid('INSERT teaches (netid,crn) VALUES (:netid,:crn)',
@@ -74,7 +85,8 @@ class Instructor
 
 	static public function import($arr) {
 		foreach ($arr as $row) {
-			Utils::getVoid('INSERT INTO instructors (netid,name,email,office_room) VALUES (:netid,:name,:email,:office_room)',
+			Utils::getVoid('INSERT INTO instructors (netid,name,email,password,office_room) VALUES 
+				(:netid,:name,:email,:password,:office_room)',
 				Utils::prepareArray($row));
 		}
 	}
@@ -86,6 +98,7 @@ class Instructor
 		}
 	}	
 
+	//Fixme
 	static public function getByCoursesNetid($netid) {
 		return Utils::getMapping('SELECT c.name, weekday, time, room
 				FROM instructors i
