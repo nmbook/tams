@@ -10,13 +10,14 @@ require_once('ta.php');
 
 function render() {
 	if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password'])) {
+		echo "netid: {$_COOKIE['netid']} and password: {$_COOKIE['password']}";
 ?>
-		<p>You are not logged in. Go <a href="lorem ipsum">here</a> to login</p>
+		<p>You are not logged in. Go <a href="index.php">here</a> to login</p>
 <?php
 		return;
 	}
 	$netid = $_COOKIE['netid'];
-	$password = $_COOKIE['netid'];
+	$password = $_COOKIE['password'];
 	try {
 		$ta = TA::getByCredentials($netid,$password);
 	}
@@ -61,12 +62,13 @@ function render() {
             return;
         }
     }
+	$for_credit = $_POST['for_credit'];
     try {
 		$ta->applyCourse($crn,$for_credit);
 		echo "<p>Course application sucessful!</p>\n";
 	}
 	catch (Exception $e) {
-		echo "<p>ERROR: course application failed. Perhaps you already applied for this course?</p>\n";
+		echo "<p>ERROR: course application failed. Perhaps you already applied for this course? {$e->getMessage()}</p>\n";
 	}
 }
 render();

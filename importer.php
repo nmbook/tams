@@ -12,13 +12,7 @@ function handle_import($data, $as, $dt) {
     if ($as == 'instructors') {
         $instructors = explode("\n", trim($data));
         $instructors = array_map(function ($instructor) {
-            $instructor = json_decode($instructor, true);
-            return array(
-                'netid'=>$instructor['netid'],
-                'name'=>$instructor['name'],
-                'email'=>$instructor['email'],
-                'office_room'=>$instructor['office_room']
-            );
+            return json_decode($instructor, true);
         }, $instructors);
         $success = true;
         try {
