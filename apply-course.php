@@ -10,9 +10,8 @@ require_once('ta.php');
 
 function render() {
 	if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password'])) {
-		echo "netid: {$_COOKIE['netid']} and password: {$_COOKIE['password']}";
 ?>
-		<p>You are not logged in. Go <a href="index.php">here</a> to login</p>
+		<p>You are not logged in. Go <a href=".">here</a> to login</p>
 <?php
 		return;
 	}
@@ -73,7 +72,6 @@ function render() {
 }
 render();
 ?>
-<a href=".">&lt-- Back</a>
 </body>
 </html>
 
