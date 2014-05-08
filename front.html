@@ -6,10 +6,25 @@ function createTA()
 {
 
 document.getElementById("mainform").style.display = "none";
-newTAForm = document.getElementById("newTA");
-var i1 = document.createElement("input");
-var i2 = document.createElement("input");
-document.createElement("button");
+var f = document.createElement("newTA");
+f.setAttribute('method',"post");
+f.setAttribute('action',"submit.php");
+
+var i = document.createElement("input"); //input element, text
+i.setAttribute('type',"text");
+i.setAttribute('name',"username");
+
+var s = document.createElement("input"); //input element, Submit button
+s.setAttribute('type',"submit");
+s.setAttribute('value',"Submit");
+
+f.appendChild(i);
+f.appendChild(s);
+
+
+//var i1 = document.createElement("input");
+//var iocument.createElement("input");
+//document.createElement("button");
 }
 
 
