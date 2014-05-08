@@ -11,6 +11,7 @@ background-repeat: repeat-x;
 text-align: center;
     }
     #mainform {
+	margin-top: 35px;
 	float: left;
 margin-left:370px;
 	font-size:150%;
@@ -31,8 +32,9 @@ margin-left:350px;
     background-image: url(http://www.hajim.rochester.edu/assets/images/templates/computer-science-backgrd_FLAT.jpg);
     }
     #main{
-    background-image: url(http://www.cs.rochester.edu/assets/images/homepage/rr_lib.jpg);
-    height: 435px;
+    background-color:white;
+	opacity: 0.9;
+	height: 435px;
 }
 #footer{
 	background-image: url(http://www.hajim.rochester.edu/assets/images/templates/department-newsbar.png);
