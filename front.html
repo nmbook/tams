@@ -50,7 +50,12 @@ text-align: center;
     background-color: white;
 	width: 960px;
 	background-image: url(http://www.cs.rochester.edu/assets/images/homepage/rr_lib.jpg); 
-}
+	}
+	#main{
+	background-color: blue;
+	opacity: 0.8;
+	height: 500px;
+	}
   </style>
 
 
@@ -65,7 +70,7 @@ text-align: center;
 
 </div>
 <h3 id="yellowtab" >Group (TuesdayNight, TND):</h3>
-
+<div id = main>
 <form id = "mainform"action=".php" method="get">
 Netid: <input type="text" name="netid"  placeholder="<?php echo $netid?>" ><br>
 Password: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
@@ -75,5 +80,6 @@ Password: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 </form>
 <button type="button" onclick="createTA()">New TA</button>
 <p id = "formplace"></p>
+</div>
 </body>
 </html>
