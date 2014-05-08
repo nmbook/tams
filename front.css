@@ -1,4 +1,7 @@
-    h2 {
+#login {
+	margin-left: 65px;
+}    
+h2 {
     margin: 0 auto;
 padding: 0;
 width: 960px;
@@ -8,7 +11,12 @@ background-repeat: repeat-x;
 text-align: center;
     }
     #mainform {
-    text-align: center;
+	float: left;
+margin-left:350px;
+}
+#formplace {
+    float: left;
+margin-left:350px;
 }
 	#newTAbutton {
 	float: right;
@@ -24,5 +32,6 @@ text-align: center;
     #main{
     background-image: url(http://www.cs.rochester.edu/assets/images/homepage/rr_lib.jpg);
     height: 500px;
-    }
+	margin-top: -16px;    
+}
 
