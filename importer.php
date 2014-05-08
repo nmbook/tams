@@ -86,11 +86,19 @@ function handle_import($data, $as, $dt) {
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="front.css">
+
 <title>Data Importer Page - TA Management System</title>
 </head>
 <body>
+<div id="hajim_header" style="background-image:url(http://www.hajim.rochester.edu/assets/images/templates/header-background.png); width:960px;margin:auto">
+<img alt="Hajim School of Engineering and Applied Sciences" src="//www.hajim.rochester.edu/assets/images/templates/header-logo.png" style="float:left;">
+<a href="index.php">
+<img alt="Department of Computer Science" src="//www.hajim.rochester.edu/assets/images/templates/csc-header-title.png" style="float:right;">
+</a>
+<br clear="all">
+</div>
 
-<h1>TA Management System on Betaweb</h1>
 <h2>Data Import Page</h2>
 
 <?php
@@ -129,5 +137,6 @@ if ($tdata !== null) {
 <input type="submit" value="Import"></input>
 </form>
 <a href=".">&lt-- Back</a>
+</div><div id = "footer"></div>
 </body>
 </html>
