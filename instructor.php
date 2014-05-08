@@ -85,6 +85,7 @@ class Instructor
 
 	static public function import($arr) {
 		foreach ($arr as $row) {
+			$row['password'] = Utils::passwordCreate($row['password']);
 			Utils::getVoid('INSERT INTO instructors (netid,name,email,password,office_room) VALUES 
 				(:netid,:name,:email,:password,:office_room)',
 				Utils::prepareArray($row));
