@@ -6,7 +6,23 @@ function createTA()
 {
 
 document.getElementById("mainform").style.display = "none";
-create();
+function create() {
+var f = document.createElement("newTA");
+f.setAttribute('method',"post");
+f.setAttribute('action',"submit.php");
+
+var i = document.createElement("input"); //input element, text
+i.setAttribute('type',"text");
+i.setAttribute('name',"username");
+
+var s = document.createElement("input"); //input element, Submit button
+s.setAttribute('type',"submit");
+s.setAttribute('value',"Submit");
+
+f.appendChild(i);
+f.appendChild(s);
+
+document.getElementsById('formplace').appendChild(f);
 //var i1 = document.createElement("input");
 //var iocument.createElement("input");
 //document.createElement("button");
@@ -58,25 +74,6 @@ Password: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
 <input type="submit">i
 </form>
 <button type="button" onclick="createTA()">New TA</button>
-<script>
-function create() {
-var f = document.createElement("newTA");
-f.setAttribute('method',"post");
-f.setAttribute('action',"submit.php");
-
-var i = document.createElement("input"); //input element, text
-i.setAttribute('type',"text");
-i.setAttribute('name',"username");
-
-var s = document.createElement("input"); //input element, Submit button
-s.setAttribute('type',"submit");
-s.setAttribute('value',"Submit");
-
-f.appendChild(i);
-f.appendChild(s);
-}
-</script>
-<form id = "newTA" >
-</form>
+<p id = "formplace"></p>
 </body>
 </html>
