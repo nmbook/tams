@@ -181,8 +181,8 @@ if ($login_obj != NULL) {
 </form>
 
 </div>
-<?php } ?>
 <button id="Logout" type="button" onclick="removeCookies()">Logout</button>
+<?php } ?>
 </div>
 <div id="footer">
 </div>
