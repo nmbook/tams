@@ -1,133 +1,93 @@
 -- SQL for Example Queries
 -- CASE 1
 -- #1: List the positions with times, room, and total positions for a specified course:
-SELECT weekday, time, room, position_count
-FROM courses c
-INNER JOIN course_sessions cs
+SELECT weekday, start_time, room, position_count 
+FROM courses c INNER JOIN sessions cs 
 ON c.crn = cs.crn
-INNER JOIN sessions s
-ON cs.session_id = s.id
-WHERE c.year = 2014 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 171;
+WHERE c.year = 2014 AND c.semester = 'spring' AND c.department = 'CSC' AND course_number = 171;
 
-SELECT weekday, time, room, w.position_count
+SELECT weekday, start_time, room, w.position_count
 FROM courses c
-INNER JOIN workshops w
-ON c.crn = w.course_crn
-INNER JOIN workshop_sessions ws
-ON w.crn = ws.crn
-INNER JOIN sessions s
-ON ws.session_id = s.id
-WHERE c.year = 2014 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 171;
+INNER JOIN courses w
+ON w.crn = c.parent_crn
+INNER JOIN sessions ws
+ON ws.crn = w.crn
+WHERE c.year = 2014 AND c.semester = 'fall' AND c.department = 'CSC' AND c.course_number = 171;
 
 -- #2: List the students wanting to sign up to TA a specific professor’s class(es):
-SELECT t.name, c.department, c.course_number, c.name
-FROM courses c
-INNER JOIN course_apps ca
-ON ca.crn = c.crn
-INNER JOIN tas t
-ON t.id = ca.ta_id
-INNER JOIN teaches ct
-ON ct.crn = c.crn
-INNER JOIN instructors i
-ON ct.instructor_id = i.id
-WHERE ca.state = 'pending' AND i.netid = 'boondoggle' AND c.year = 2014 AND c.semester = 'fall';
+select t.name, c.department, c.course_number, c.name  
+from courses c INNER JOIN applications ap 
+ON c.crn = ap.crn INNER JOIN tas t 
+ON t.netid = ap.netid INNER JOIN teaches te 
+ON te.crn = c.crn INNER JOIN instructors i 
+ON i.netid = te.netid 
+WHERE ap.state = 'pending' AND i.netid = 'boondoggle' AND c.year = 2014 AND c.semester = 'fall';
 
 
---Nate, Since when are we using ids for TAs and TA applications??
---I did the rest of the queries using Ids and not using ids because I didn't know we decided to use ids
 
 -- CASE 2
 -- #1:  
-SELECT name
+SELECT c.name
 FROM courses c
-INNER JOIN Course_apps ca
+INNER JOIN applications ca
 ON c.crn = ca.crn
 INNER JOIN tas t
-ON t.id = ca.ta_id
+ON t.netid = ca.netid
 WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
 
---without using TA.id
---SELECT name
---FROM Courses c
---INNER JOIN Course_apps ca
---ON c.crn = ca.crn
---INNER JOIN tas t
---ON t.netid = ca.ta_netid 
---WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
 
 
 -- #2:
-SELECT name
-FROM courses c
-INNER JOIN workshops w
-ON w.coursecrn = c.crn
-INNER JOIN workshop_apps wa
-ON w.crn = wa.course_crn
+SELECT t.name 
+FROM courses c 
+INNER JOIN courses w 
+ON w.parent_crn = c.crn 
+INNER JOIN applications wa 
+ON w.crn = wa.crn 
+Inner join tas t 
+ON t.netid = wa.netid 
+WHERE wa.state = "approved" AND c.year = 2015 AND c.semester = 'fall' AND c.department = 'CSC' AND c.course_number = 173;
 
-WHERE wa.state = "approved" AND c.year = 2015 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
 
 -- CASE 3
 -- #1: 
 SELECT t.email
 FROM courses c
-INNER JOIN course_apps ca
+INNER JOIN applications ca
 ON ca.crn = c.crn
 INNER JOIN tas t
-ON t.id = ca.ta_id
+ON t.netid = ca.netid
 WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
-
---without ta ids
---SELECT t.email
---FROM courses c
---INNER JOIN course_apps ca
---ON ca.crn = c.crn
---INNER JOIN tas t
---ON t.netid = ca.ta_netid
---WHERE ca.state = "approved" AND c.year = 2014 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
 
 SELECT t.email
 FROM courses c
-INNER JOIN workshops w
-ON w.coursecrn = c.crn
-INNER JOIN workshop_apps wa
-ON w.crn = wa.course_crn
+INNER JOIN courses w
+ON w.crn = c.crn
+INNER JOIN applications wa
+ON w.crn = wa.crn
 INNER JOIN tas t
-ON t.id = wa.ta_id
-WHERE wa.state = "approved" AND c.year = 2015 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
+ON t.netid = wa.netid
+WHERE wa.state = "approved" AND c.year = 2015 AND c.semester = 'fall' AND c.department = 'CSC' AND c.course_number = 173;
 
---without ta ids
---SELECT t.email
---FROM courses c
---INNER JOIN workshop_apps wa
---ON c.crn = wa.course_crn
---INNER JOIN workshops w
---ON w.crn = wa.workshop_crn
---INNER JOIN tas t
---ON t.netid = wa.ta_netid
---WHERE wa.state = "approved" AND c.year = 2015 AND c.semester = 'fall' AND c.department = 'CSC' AND course_number = 173;
 
 
 -- CASE 4
 -- #1: 
-SELECT c.name, weekday, time, room
+SELECT c.name, weekday, start_time, room
 FROM instructors i
 INNER JOIN teaches t
-ON t.net_id = i.net_id
+ON t.netid = i.netid
 INNER JOIN courses c
 ON c.crn = t.crn
-INNER JOIN course_sessions cs
-ON c.crn = cs.crn
 INNER JOIN sessions s
-ON cs.session_id = s.id
+ON c.crn = s.crn
 WHERE i.netid = "boondoggle" AND c.semester = "spring" AND c.year = 2014;
 
 --#2:
-SELECT weekday, time, room
-FROM course c
-INNER JOIN course_sessions cs
+SELECT weekday, start_time, room
+FROM courses c
+INNER JOIN sessions cs
 ON c.crn = cs.crn
-INNER JOIN sessions s
-ON cs.session_id = s.id
 WHERE c.year = 2014 AND c.semester = 'spring' AND c.department = 'CSC' AND course_number = 240;
 
 
