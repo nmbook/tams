@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from json import loads
 from random import sample, choice, randint
 from subprocess import Popen,PIPE
