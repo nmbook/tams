@@ -72,6 +72,21 @@ function createTA()
     document.getElementById("formplace").style.display = "block";
 }
 
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function removeCookies() {
+	delete_cookie("netid");
+	delete_cookie("password");
+	location.reload();
+}
 <?php
 // inject JavaScript to switch panes if create failed
 if (isset($create_failed)) echo 'window.onload = createTA;';
@@ -163,6 +178,8 @@ if ($login_obj != NULL) {
 
 </div>
 <?php } ?>
-<div id="footer"></div>
+<div id="footer">
+<button id="Logout" type="button" onclick="removeCookies()">Logout</button>
+</div>
 </body>
 </html>
