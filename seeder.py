@@ -10,6 +10,7 @@ def submit(f,net,password,**kwargs):
 	obj = Popen(['curl', '-s', '-b', 'netid=' + net + '; password=' + password, '--data',  data, site_string + f],stdout=PIPE)
 	obj.wait()
 	for line in obj.stdout:
+		#print line
 		if "ERROR" in line:
 			print line[3:-5]
 

@@ -15,6 +15,7 @@
 
 require_once('ta.php');
 require_once('course.php');
+require_once('instructor.php');
 require_once('application.php');
 require_once('utils.php');
 function render() {
