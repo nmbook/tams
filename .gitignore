@@ -1,3 +1,4 @@
 # ignore data
-tas.csv
+*.txt
+talist-tuesdaynight.php
 
