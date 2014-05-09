@@ -21,7 +21,7 @@ if ($act == 'login') {
         $ta_obj = TA::getByNetID($lnetid);
         $h_password = $ta_obj->getPassword();
         if (Utils::passwordVerify($lpassword, $h_password)) {
-            setcookie('netid', $netid, time()+3600);
+            setcookie('netid', $lnetid, time()+3600);
             setcookie('password', $h_password, time()+3600);
             $status = "Hello, you have logged in as {$ta_obj->getName()}!";
             $login_obj = $ta_obj;
