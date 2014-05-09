@@ -119,7 +119,7 @@ class TA {
 
 	static public function getByClass($year, $semester, $department, $course_number) {
         return Utils::getMapping(
-            'SELECT t.netid,t.password,t.name,email,class_year FROM courses c
+            'SELECT t.netid,t.credentials,t.name,email,class_year FROM courses c
              INNER JOIN applications a ON c.crn = a.crn
              INNER JOIN tas t ON t.netid = a.netid
              WHERE a.state = \'approved\'

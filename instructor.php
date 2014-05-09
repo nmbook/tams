@@ -23,7 +23,7 @@ class Instructor
     public function __construct($row) {
         $this->netid = $row['netid'];
         $this->name = $row['name'];
-		$this->password = $row['password'];
+		$this->password = $row['credentials'];
         $this->office = $row['office_room'];
         if (array_key_exists('email',$row))
             $this->email = $row['email'];
