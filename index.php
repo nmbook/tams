@@ -155,6 +155,8 @@ if ($login_obj != NULL) {
 <?php } elseif (get_class($login_obj) == 'Instructor') { ?>
 <li><a href="get-courses.php">Get courses</a></li>
 <li><a href="set-professor.php">Set professor</a></li>
+<li><a href="ta-list.php">List TAs</a></li>
+<li><a href="ta-approval.php">Approve TAs</a></li>
 <?php } ?>
 </ul>
 <?php } else { ?>
@@ -204,8 +206,8 @@ if ($login_obj != NULL) {
 </form>
 
 </div>
-<button id="Logout" type="button" onclick="removeCookies()">Logout</button>
 <?php } ?>
+<button id="Logout" type="button" onclick="removeCookies()">Logout</button>
 </div>
 <div id="footer">
 </div>

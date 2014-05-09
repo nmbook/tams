@@ -66,7 +66,7 @@ class Instructor
 		 return Utils::getSingle(
             'SELECT * FROM instructors
              WHERE netid=:netid
-			AND password=:password',
+			AND credentials=:password',
             array(':netid' => $netid,':password' => $password),
             function ($x) { return new Instructor($x); });
 	}
