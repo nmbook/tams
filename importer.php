@@ -122,7 +122,7 @@ if ($tdata !== null) {
 ?>
 <h3>Import Instructor List (as JSON)</h3>
 <form enctype="multipart/form-data" action="importer.php" method="post">
-<input type="hidden" name="MAX_FILE_SIZE" value="1000000"></input>
+<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000"></input>
 <input type="hidden" name="dt" value="json"></input>
 <input type="hidden" name="as" value="instructors"></input>
 <input type="file" name="fdata"></input><br />
@@ -130,7 +130,7 @@ if ($tdata !== null) {
 </form>
 <h3>Import Course List (as JSON)</h3>
 <form enctype="multipart/form-data" action="importer.php" method="post">
-<input type="hidden" name="MAX_FILE_SIZE" value="1000000"></input>
+<input type="hidden" name="MAX_FILE_SIZE" value="1000000000000"></input>
 <input type="hidden" name="dt" value="json"></input>
 <input type="hidden" name="as" value="courses"></input>
 <input type="file" name="fdata"></input><br />
