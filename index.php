@@ -182,8 +182,9 @@ if ($login_obj != NULL) {
 
 </div>
 <?php } ?>
-<div id="footer">
 <button id="Logout" type="button" onclick="removeCookies()">Logout</button>
+</div>
+<div id="footer">
 </div>
 </body>
 </html>
