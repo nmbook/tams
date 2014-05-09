@@ -18,25 +18,16 @@ require_once('course.php');
 require_once('application.php');
 require_once('utils.php');
 function render() {
-	if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password'])) {
+	$professor = Utils::getInstructorLogin();
+	$prof_netid = isset($_COOKIE['netid']) ? $_COOKIE['netid'] : '';
+	$password = isset($_COOKIE['password']) ? $_COOKIE['password'] : '';
+	if ($professor == NULL && $prof_netid != 'marty' && $password != 'password') {
 ?>
 	<p>You have not logged in. Go <a href=".">here</a> to login.</p>
 <?php
 		return;	
 	}
-	$prof_netid = $_COOKIE['netid'];
-	$password = $_COOKIE['password'];
 	Utils::beginTransaction();
-	try {
-		if ($prof_netid != 'marty' || $password != 'password') {
-			$professor = Instructor::getByCredentials($prof_netid,$password);
-		}
-	}
-	catch (Exception $e) {
-			echo "<p>ERROR: a professor with netid $netid and password $password is not in our database.</p>\n";
-			Utils::cancelTransaction();
-			return;
-	}
 	if (!isset($_POST["netid"]) || !isset($_POST["state"]) || (!isset($_POST["crn"]) && (!isset($_POST["course"]) || !isset($_POST["department"]) || !isset($_POST["semester"]) || !isset($_POST["year"])))) {
 ?>
 <p> Would you like to review TA applications for a course?</p>

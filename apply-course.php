@@ -20,8 +20,8 @@ require_once('course.php');
 require_once('ta.php');
 
 function render() {
-    $ta = Utils::getCurrentLogin();
-    if (!$ta) {
+    $ta = Utils::getTALogin();
+    if ($ta == NULL) {
 ?>
 		<p>You are not logged in. Go <a href=".">here</a> to login</p>
 <?php

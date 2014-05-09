@@ -2,7 +2,7 @@
 
 -- TRUNCATE tas;
 
-LOAD DATA LOCAL INFILE 'data/tas.csv' INTO TABLE tas ( netid, name, email, class_year, password );
+LOAD DATA LOCAL INFILE 'data/tas.csv' INTO TABLE tas ( netid, name, email, class_year, credentials );
 -- LOAD DATA LOCAL INFILE 'data/courses.csv' INTO TABLE courses (crn,year,semester,department,course_number,name,description,parent_crn,position_count);
 -- LOAD DATA LOCAL INFILE 'data/instructors.csv' INTO TABLE instructors (netid,name,email,office_room,credentials);
 -- LOAD DATA LOCAL INFILE 'data/sessions.csv' INTO TABLE sessions (weekday,start_time,end_time,room,crn);
