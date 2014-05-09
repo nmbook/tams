@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors',1);
 
 require_once('ta.php');
+require_once('instructor.php');
 require_once('utils.php');
 
 date_default_timezone_set('America/New_York');
@@ -26,11 +27,29 @@ if ($act == 'login') {
             $status = "Hello, you have logged in as {$ta_obj->getName()}!";
             $login_obj = $ta_obj;
         } else {
-            $status = 'Login failure: Username or password is incorrect.';
-        }
+        	throw new TamsException(TamsException::E_GENERAL);
+		}
     } catch (TamsException $ex) {
-        $status = 'Login failure: Username or password is incorrect.';
-    }
+		try {
+        	$prof_obj = Instructor::getByNetID($lnetid);
+			echo "0";
+        	$h_password = $prof_obj->getPassword();
+        	if (Utils::passwordVerify($lpassword, $h_password)) {
+				echo "1";
+        	    setcookie('netid', $lnetid, time()+3600);
+        	    setcookie('password', $h_password, time()+3600);
+        	    $status = "Hello, you have logged in as {$prof_obj->getName()}!";
+				echo "2";
+        	    $login_obj = $prof_obj;
+			}
+			else {
+        	    throw new TamsException(TamsException::E_GENERAL);
+        	}
+    	}
+		catch (Exception $e) {
+			$status = "Incorrect login";
+		}
+	}
 } elseif ($act == 'create') {
     $netid = isset($_POST['netid']) ? $_POST['netid'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
