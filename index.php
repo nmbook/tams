@@ -6,18 +6,21 @@ ini_set('display_errors',1);
 require_once('ta.php');
 require_once('utils.php');
 
+date_default_timezone_set('America/New_York');
+$this_year = intval(date('Y'));
+
 $login_obj = Utils::getCurrentLogin();
 
 $act = isset($_GET['act']) ? $_GET['act'] : '';
 
 if ($act == 'login') {
-    $netid = isset($_POST['netid']) ? $_POST['netid'] : '';
-    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $lnetid = isset($_POST['netid']) ? $_POST['netid'] : '';
+    $lpassword = isset($_POST['password']) ? $_POST['password'] : '';
 
     try {
-        $ta_obj = TA::getByNetID($netid);
+        $ta_obj = TA::getByNetID($lnetid);
         $h_password = $ta_obj->getPassword();
-        if (Utils::passwordVerify($password, $h_password)) {
+        if (Utils::passwordVerify($lpassword, $h_password)) {
             setcookie('netid', $netid, time()+3600);
             setcookie('password', $h_password, time()+3600);
             $status = "Hello, you have logged in as {$ta_obj->getName()}!";
@@ -31,17 +34,24 @@ if ($act == 'login') {
 } elseif ($act == 'create') {
     $netid = isset($_POST['netid']) ? $_POST['netid'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $password2 = isset($_POST['password2']) ? $_POST['password2'] : '';
     $fname = isset($_POST['fname']) ? $_POST['fname'] : '';
     $lname = isset($_POST['lname']) ? $_POST['lname'] : '';
     $email = isset($_POST['email']) ? $_POST['email'] : '';
     $year = isset($_POST['year']) ? $_POST['year'] : '';
 
-    try {
-        TA::create($netid, "$fname $lname", $email, Utils::passwordCreate($password), $year);
-        $ta_obj = TA::getByNetID($netid);
-        $status = "You have created an account, {$ta_obj->getName()}!";
-    } catch (TamsException $ex) {
-        $status = 'Create failure: '.$ex;
+    if ($password != $password2) {
+        $status = 'Your passwords do not match!';
+        $create_failed = true;
+    } else {
+        try {
+            TA::create($netid, "$fname $lname", $email, Utils::passwordCreate($password), $year);
+            $ta_obj = TA::getByNetID($netid);
+            $status = "You have successfully created an account, {$ta_obj->getName()}! Please log in.";
+        } catch (TamsException $ex) {
+            $status = 'Create failure: '.$ex;
+            $create_failed = true;
+        }
     }
 }
 
@@ -60,29 +70,12 @@ function createTA()
 {
     document.getElementById("mainform").style.display = "none";
     document.getElementById("formplace").style.display = "block";
-    //document.getElementById("newTAbutton").style.display = "none";
-    /*
-    var f = document.createElement("newTA");
-    f.setAttribute('method',"post");
-    f.setAttribute('action',"submit.php");
-
-    var i = document.createElement("input"); //input element, text
-    i.setAttribute('type',"text");
-    i.setAttribute('name',"username");
-
-    var s = document.createElement("input"); //input element, Submit button
-    s.setAttribute('type',"submit");
-    s.setAttribute('value',"Submit");
-
-    f.appendChild(i);
-    f.appendChild(s);
-
-    document.getElementById('formplace').appendChild(f);
-    //var i1 = document.createElement("input");
-    //var iocument.createElement("input");
-    //document.createElement("button");
-    */
 }
+
+<?php
+// inject JavaScript to switch panes if create failed
+if (isset($create_failed)) echo 'window.onload = createTA;';
+?>
 
 
 </script>
@@ -110,12 +103,25 @@ if ($login_obj != NULL) {
 <?php if (isset($status)) { ?>
 <div class="message"><?php echo $status; ?></div>
 <?php } ?>
+<?php if ($login_obj != NULL) { ?>
+<h3>TA Management System Pages</h3>
+<ul>
+<?php if (get_class($login_obj) == 'TA') { ?>
+<li><a href="ta-list.php">TA lister</a></li>
+<li><a href="ta-list-for-course.php">TA lister by course</a></li>
+<li><a href="apply-course.php">Apply for positions</a></li>
+<?php } elseif (get_class($login_obj) == 'Instructor') { ?>
+<li><a href="get-courses.php">Get courses</a></li>
+<li><a href="set-professor.php">Set professor</a></li>
+<?php } ?>
+</ul>
+<?php } else { ?>
 <form id="mainform" action="index.php?act=login" method="post">
 <h3>Login to the TA Management System</h3>
 <table>
 <tr>
 <td align = "right">
-<label for="netid">Netid:</label> </td>
+<label for="netid">University NetID:</label> </td>
 <td><input type="text" name="netid" id="netid" ></input>
 </td>
 </tr><tr>
@@ -130,12 +136,24 @@ if ($login_obj != NULL) {
 <h3>Create a New TA Account</h3>
 <table>
 <tr>
-<td>First Name:</td><td> <input type="text" name="fname" ></td>
-</tr><tr><td>Last Name:</td><td> <input type="text" name="lname" ></td>
-</tr><tr><td>Netid:</td><td> <input type="text" name="netid" ></td>
-</tr><tr><td>Password:</td><td> <input type="password" name="password" ></td>
-</tr><tr><td>E-Mail:</td><td> <input type="email" name="email" ></td>
-</tr><tr><td>Class Year:</td><td> <input type="text" name="year" ></td>
+<td><label for="crfname">First name:</label></td><td>
+<input type="text" name="fname" id="crfname"<?php if (isset($fname)) echo " value=\"$fname\""; ?>></input></td>
+</tr><tr><td><label for="crlname">Last name:</label></td><td>
+<input type="text" name="lname" id="crlname"<?php if (isset($lname)) echo " value=\"$lname\""; ?>></input></td>
+</tr><tr><td><label for="crnetid">University NetID:</label></td><td>
+<input type="text" name="netid" id="crnetid"<?php if (isset($netid)) echo " value=\"$netid\""; ?>></input></td>
+</tr><tr><td><label for="crpassword">Password:</label></td><td>
+<input type="password" name="password" id="crpassword"></input></td>
+</tr><tr><td colspan="2" style="color:red;font-weight:bold">Warning: Password is stored in plain text for demo. DO NOT USE A REAL PASSWORD!!!</td>
+</tr><tr><td><label for="crpassword2">Confirm password:</label></td><td>
+<input type="password" name="password2" id="crpassword2"></input></td>
+</tr><tr><td><label for="cremail">E-mail:</label></td><td>
+<input type="email" name="email" id="cremail"<?php if (isset($email)) echo " value=\"$email\""; ?>></input></td>
+</tr><tr><td><label for="cryear">Class year:</label></td><td>
+<select name="year" id="cryear">
+<?php for ($year = $this_year - 2; $year < $this_year + 6; $year++) { ?>
+<option value="<?php echo $year; ?>"<?php if ($year == $this_year) echo ' selected="selected"'; ?>><?php echo $year; ?></option>
+<?php } ?></select></td>
 </tr>
 </table>
 
@@ -144,6 +162,7 @@ if ($login_obj != NULL) {
 </form>
 
 </div>
+<?php } ?>
 <div id="footer"></div>
 </body>
 </html>
