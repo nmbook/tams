@@ -139,6 +139,79 @@ class Utils {
         global $db;
         $db->commit();
     }
+
+    // Input: $password to hash
+    // Output: credentials database field
+    public static function passwordCreate($password) {
+        return $password;
+        /*
+        // BLOWFISH DIFFICULTY=12 SALT_LEN=21
+        // generate salt here
+        $salt_alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+        $salt_alpha_len = 63;
+        $salt_len = 21;
+        $b_rounds = '01';
+
+        #$salt = "$2a$$b_rounds$";
+        #for ($i = 0; $i < $salt_len; $i++) {
+        #    $salt .= $salt_alpha[mt_rand(0, $salt_alpha_len)];
+        #}
+        #$salt .= '$';
+
+        // now hash!
+        //echo "PASS $password<br>";
+        //echo "SALT $salt<br>";
+        #$result = crypt($password, $salt);
+        //echo "CRYPT $result<br>";
+        return $result;*/
+    }
+
+    public static function passwordVerify($password, $hashed) {
+        return $password === $hashed;
+        /*
+        // NOTE: gets $salt manually from $hashed.
+        // Weird it wasn't working automagically like php manual implies
+        // TODO: One day, when password_hash() is supported by the server, we should use that
+        $salt_len = 21;
+        $salt = substr($hashed, 0, 7 + $salt_len).'$';
+        // now hash!
+        //echo "INPUT $password<br>";
+        //echo "SALT $salt<br>";
+        //echo "HASHED $hashed<br>";
+        $result = crypt($password, $salt);
+        // validate!
+        //echo "RESULT $result<br>";
+        return $result === $hashed;*/
+    }
+
+	public static function getCurrentLogin() {
+		$tmp = Utils::getTALogin();
+		if ($tmp != NULL) return $tmp;
+		return Utils::getInstructorLogin();
+	}
+
+    // call this to get the current logged in user
+    // If no one is logged in, return false.
+    public static function getTALogin() {
+        if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password'])) 
+			return NULL;
+        try {
+            return TA::getByCredentials($_COOKIE['netid'], $_COOKIE['password']);
+        } catch (TamsException $ex) {
+            return NULL;
+        }
+    }
+
+	public static function getInstructorLogin() {
+		if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password']))
+			return NULL;
+		try {
+			return Instructor::getByCredentials($_COOKIE['netid'],$_COOKIE['password']);
+		}
+		catch (TamsException $e) {
+			return NULL;
+		}
+	}
+
 }
 
-?>

@@ -20,19 +20,11 @@ require_once('course.php');
 require_once('ta.php');
 
 function render() {
-	if (!isset($_COOKIE['netid']) || !isset($_COOKIE['password'])) {
+    $ta = Utils::getTALogin();
+    if ($ta == NULL) {
 ?>
 		<p>You are not logged in. Go <a href=".">here</a> to login</p>
 <?php
-		return;
-	}
-	$netid = $_COOKIE['netid'];
-	$password = $_COOKIE['password'];
-	try {
-		$ta = TA::getByCredentials($netid,$password);
-	}
-	catch (Exception $e) {
-		echo "<p>ERROR: a TA with netid $netid and password $password is not in our database</p>\n";
 		return;
 	}
 	if (!isset($_POST['for_credit']) || (!isset($_POST['crn']) && 
