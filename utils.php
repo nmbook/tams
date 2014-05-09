@@ -184,6 +184,12 @@ class Utils {
         return $result === $hashed;*/
     }
 
+	public static function getCurrentLogin() {
+		$tmp = Utils::getTALogin();
+		if ($tmp != NULL) return $tmp;
+		return Utils::getInstructorLogin();
+	}
+
     // call this to get the current logged in user
     // If no one is logged in, return false.
     public static function getTALogin() {

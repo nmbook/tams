@@ -100,7 +100,7 @@ function createTA()
 </div>
 <h2 id="yellowtab" >TA Management System (Group: TuesdayNight) |
 <?php
-if ($login_obj !== false) {
+if ($login_obj != NULL) {
     echo "Hello, {$login_obj->getName()}!";
 } else {
     echo 'Welcome';
