@@ -17,7 +17,7 @@ def submit(f,net,password,**kwargs):
 with open('data/courses.json','r') as f:
 	crns = [loads(line)['crn'] for line in f]
 with open('data/tas.csv','r') as f:
-	netids = {line.split('\t')[0]:line.split('\t')[-1][:-1] for line in f}
+	netids = dict([(line.split('\t')[0],line.split('\t')[-1][:-1]) for line in f])
 with open('data/instructors.json','r') as f:
 	instructors = [loads(line)['netid'] for line in f]
 
