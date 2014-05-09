@@ -4,7 +4,7 @@ from random import sample, choice, randint
 from subprocess import Popen,PIPE
 from os import environ
 APP_LIMIT = 4
-site_string = 'http://localhost/~' + environ['USER'] + '/'
+site_string = 'http://localhost/~' + environ['USER'] + '/tnd/'
 
 def submit(f,net,password,**kwargs):
 	data = '&'.join([key+'='+val for (key,val) in kwargs.iteritems()])
@@ -22,7 +22,7 @@ with open('data/tas.csv','r') as f:
 with open('data/instructors.json','r') as f:
 	instructors = [loads(line)['netid'] for line in f]
 
-apps = {crn:[] for crn in crns}
+apps = dict([(crn,[]) for crn in crns])
 for (netid,password) in netids.iteritems():
 	for crn in sample(crns,randint(0,APP_LIMIT)):
 		apps[crn].append(netid)
