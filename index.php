@@ -202,10 +202,9 @@ if ($login_obj != NULL) {
 <input type="submit" value="create" id="login">
 <button id= "Talogin" type="button" onclick="TAlogin()">Back to Login </button>
 </form>
-
+<?php }?>
 </div>
 <button id="Logout" type="button" onclick="removeCookies()">Logout</button>
-<?php } ?>
 </div>
 <div id="footer">
 </div>
