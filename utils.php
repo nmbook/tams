@@ -143,12 +143,14 @@ class Utils {
     // Input: $password to hash
     // Output: credentials database field
     public static function passwordCreate($password) {
+        return $password;
+        /*
         // BLOWFISH DIFFICULTY=12 SALT_LEN=21
         // generate salt here
-        #$salt_alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
-        #$salt_alpha_len = 63;
-        #$salt_len = 21;
-        #$b_rounds = '12';
+        $salt_alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+        $salt_alpha_len = 63;
+        $salt_len = 21;
+        $b_rounds = '01';
 
         #$salt = "$2a$$b_rounds$";
         #for ($i = 0; $i < $salt_len; $i++) {
@@ -161,10 +163,12 @@ class Utils {
         //echo "SALT $salt<br>";
         #$result = crypt($password, $salt);
         //echo "CRYPT $result<br>";
-        return $password;
+        return $result;*/
     }
 
     public static function passwordVerify($password, $hashed) {
+        return $password === $hashed;
+        /*
         // NOTE: gets $salt manually from $hashed.
         // Weird it wasn't working automagically like php manual implies
         // TODO: One day, when password_hash() is supported by the server, we should use that
@@ -177,7 +181,7 @@ class Utils {
         $result = crypt($password, $salt);
         // validate!
         //echo "RESULT $result<br>";
-        return $result === $hashed;
+        return $result === $hashed;*/
     }
 
     // call this to get the current logged in user
