@@ -53,6 +53,10 @@ if ($act == 'login') {
             $create_failed = true;
         }
     }
+} elseif ($act == 'logout') {
+    setcookie('netid', '', time()-1);
+    setcookie('password', '', time()-1);
+    $login_obj = null;
 }
 
 ?>
