@@ -18,7 +18,7 @@
 	if (!isset($_GET['netid']) || !isset($_GET['year'])) {
 ?>
 <div id = "main" style = "margin-top:-16px;">
-<p> Would you like to look up the courses for another proffesor?</p>
+<p> Would you like to look up the courses for another professor?</p>
 <form action="get-courses.php" method="get">
 Netid: <input type="text" name="netid"  placeholder="<?php echo $netid?>" ><br>
 Year: <input type="text" name="year"  placeholder="<?php echo $year?>" ><br>
