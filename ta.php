@@ -122,8 +122,7 @@ class TA {
             'SELECT t.netid,t.credentials,t.name,email,class_year FROM courses c
              INNER JOIN applications a ON c.crn = a.crn
              INNER JOIN tas t ON t.netid = a.netid
-             WHERE a.state = \'approved\'
-             AND c.year = :year AND c.semester = :semester
+             WHERE c.year = :year AND c.semester = :semester
              AND c.department = :department
              AND course_number = :course',
              array(
