@@ -13,7 +13,7 @@
 </div>
 
 <h2>Course TA Signups</h2>
-<div id = "main" style = "margin-top:-16px;">
+<div id = "main">
 
 <?php
 
