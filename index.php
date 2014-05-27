@@ -188,7 +188,6 @@ if ($login_obj != NULL) {
 <input type="text" name="netid" id="crnetid"<?php if (isset($netid)) echo " value=\"$netid\""; ?>></input></td>
 </tr><tr><td><label for="crpassword">Password:</label></td><td>
 <input type="password" name="password" id="crpassword"></input></td>
-</tr><tr><td colspan="2" style="color:red;font-weight:bold">Warning: Password is stored in plain text for demo. DO NOT USE A REAL PASSWORD!!!</td>
 </tr><tr><td><label for="crpassword2">Confirm password:</label></td><td>
 <input type="password" name="password2" id="crpassword2"></input></td>
 </tr><tr><td><label for="cremail">E-mail:</label></td><td>
